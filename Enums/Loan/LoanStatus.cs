@@ -3,7 +3,7 @@
     public enum LoanStatus
     {
         active = 1,
-        paid = 2,
-        defaulted = 3
+        paid = 2
+        
     }
 }

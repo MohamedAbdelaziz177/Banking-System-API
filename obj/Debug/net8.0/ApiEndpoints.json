@@ -265,22 +265,6 @@
   },
   {
     "ContainingType": "Banking_system.Controllers.CustomerController",
-    "Method": "GetCustomerById",
-    "RelativePath": "api/Customer/{id}",
-    "HttpMethod": "GET",
-    "IsController": true,
-    "Order": 0,
-    "Parameters": [
-      {
-        "Name": "id",
-        "Type": "System.Int32",
-        "IsRequired": true
-      }
-    ],
-    "ReturnTypes": []
-  },
-  {
-    "ContainingType": "Banking_system.Controllers.CustomerController",
     "Method": "AddNewCustomer",
     "RelativePath": "api/Customer/AddNewCustomer",
     "HttpMethod": "POST",
@@ -323,6 +307,22 @@
   },
   {
     "ContainingType": "Banking_system.Controllers.CustomerController",
+    "Method": "GetCustomerById",
+    "RelativePath": "api/Customer/GetCustomerById{id}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "Banking_system.Controllers.CustomerController",
     "Method": "UpdateCustomer",
     "RelativePath": "api/Customer/UpdateCustomer{id}",
     "HttpMethod": "PUT",
@@ -351,7 +351,7 @@
     "Order": 0,
     "Parameters": [
       {
-        "Name": "loan",
+        "Name": "loanDto",
         "Type": "Banking_system.DTO_s.LoanDto_s.LoanCreateDto",
         "IsRequired": true
       }
@@ -418,6 +418,26 @@
   },
   {
     "ContainingType": "Banking_system.Controllers.LoanController",
+    "Method": "GetPaidLoans",
+    "RelativePath": "api/Loan/GetPaidLoans",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "Banking_system.Controllers.LoanController",
+    "Method": "GetUnpaidLoans",
+    "RelativePath": "api/Loan/GetUnpaidLoans",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "Banking_system.Controllers.LoanController",
     "Method": "UpdateLoan",
     "RelativePath": "api/Loan/UpdateLoan/{id}",
     "HttpMethod": "PUT",
@@ -430,7 +450,7 @@
         "IsRequired": true
       },
       {
-        "Name": "loan",
+        "Name": "loanDto",
         "Type": "Banking_system.DTO_s.LoanDto_s.LoanUpdateDto",
         "IsRequired": true
       }
@@ -441,7 +461,7 @@
     "ContainingType": "Banking_system.Controllers.TransactionController",
     "Method": "DeleteTransaction",
     "RelativePath": "api/Transaction/DeleteTransaction",
-    "HttpMethod": "GET",
+    "HttpMethod": "DELETE",
     "IsController": true,
     "Order": 0,
     "Parameters": [

@@ -37,7 +37,7 @@ namespace Banking_system.Controllers
         }
 
 
-        [HttpGet("{id:int}")]
+        [HttpGet("GetCustomerById{id:int}")]
         public async Task<IActionResult> GetCustomerById([FromRoute] int id) 
         {
             var cust = await unitOfWork.CustomersRepo.GetByIdAsync(id); 

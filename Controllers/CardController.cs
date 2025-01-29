@@ -52,5 +52,10 @@ namespace Banking_system.Controllers
         {
             return Ok();
         }
+
+        private string GenerateCardNumber()
+        {
+            return "";
+        }
     }
 }

@@ -76,7 +76,7 @@ namespace Banking_system.Controllers
         }
 
         [Authorize(Roles = "admin")]
-        [HttpGet("DeleteTransaction")]
+        [HttpDelete("DeleteTransaction")]
         public IActionResult DeleteTransaction(int id) 
         {
             return Ok();
