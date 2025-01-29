@@ -3,6 +3,7 @@ using Banking_system.DTO_s.AccountDto_s;
 using Banking_system.Enums.Account;
 using Banking_system.Model;
 using Banking_system.UnitOfWork;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -103,12 +104,12 @@ namespace Banking_system.Controllers
               
         }
 
+        [Authorize(Roles = "admin")]
         [HttpDelete("Delete/{id:int}")]
         public async Task<IActionResult> DeleteAccount([FromRoute] int id) 
         {
             await unitOfWork.AccountsRepo.deleteAsync(id);
-
-            return Ok();
+            return NoContent();
         }
         
     }
