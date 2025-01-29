@@ -27,7 +27,7 @@ namespace Banking_system.AutoMapperProfiles
                 .ReverseMap();
         }
 
-        public void KosomGit() { }
+       // public void FuckGit() { }
 
     }
 }

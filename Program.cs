@@ -50,13 +50,13 @@ namespace Banking_system
                     IssuerSigningKey = new SymmetricSecurityKey(
                        Encoding.UTF8.GetBytes(builder.Configuration["Jwt:secret"]))
 
-                };//*****
+                };
             }
                 );
 
             builder.Services.AddScoped<IUnitOfWork, UnitOfWorkk>();
 
-            
+            builder.Services.AddAutoMapper(typeof(Program).Assembly);
 
 
           

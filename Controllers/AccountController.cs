@@ -1,5 +1,7 @@
-﻿using Banking_system.DTO_s.AccountDto_s;
+﻿using AutoMapper;
+using Banking_system.DTO_s.AccountDto_s;
 using Banking_system.Enums.Account;
+using Banking_system.Model;
 using Banking_system.UnitOfWork;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -11,17 +13,25 @@ namespace Banking_system.Controllers
     public class AccountController : ControllerBase
     {
         private readonly IUnitOfWork unitOfWork;
+        private readonly IMapper mapper;
 
-        public AccountController(IUnitOfWork unitOfWork)
+        public AccountController(IUnitOfWork unitOfWork, IMapper mapper)
         {
             this.unitOfWork = unitOfWork;
+            this.mapper = mapper;
         }
 
         [HttpGet("GetAll")]
         public async Task<IActionResult> GetAllAccounts()
         {
             var accounts = await unitOfWork.AccountsRepo.GetAllAsync();
-            return Ok(accounts);
+
+            List<AccountReadDto> accountsDto = new List<AccountReadDto>();
+            foreach (var account in accounts)
+            {
+                accountsDto.Add(mapper.Map<AccountReadDto>(account));
+            }
+            return Ok(accountsDto);
         }
 
         [HttpGet("GetAccountById/{id:int}")]
@@ -29,22 +39,34 @@ namespace Banking_system.Controllers
         {
             var account = await unitOfWork.AccountsRepo.GetByIdAsync(id);
 
-            if(account != null)
-            return Ok(account);
+            if(account == null) return NotFound("there is no account with this id");
 
-            else return NotFound();
+            var accountDto = mapper.Map<AccountReadDto>(account);
+
+            return Ok(accountDto);
+            
         }
 
         [HttpPost("CreateAccount")]
-        public IActionResult CreateAccount([FromBody] AccountCreateDto acc)
+        public async Task<IActionResult> CreateAccount([FromBody] AccountCreateDto acc)
         {
-            return Ok();
+            if(!ModelState.IsValid) return BadRequest(ModelState);
+
+            var account = mapper.Map<Account>(acc);
+            await unitOfWork.AccountsRepo.insertAsync(account);
+
+            return CreatedAtAction("GetAccountById", new {id = account.Id});
         }
 
         [HttpPut("UpdateAccount/{id:int}")]
-        public IActionResult UpdateAccount([FromRoute] int id, [FromBody] AccountUpdateDto acc)
+        public async Task<IActionResult> UpdateAccount([FromRoute] int id, [FromBody] AccountUpdateDto acc)
         {
-            return Ok();
+            if(!ModelState.IsValid) return BadRequest(ModelState);
+
+            var account = mapper.Map<Account>(acc);
+            await unitOfWork.AccountsRepo.updateAsync(id, account);
+
+            return CreatedAtAction("GetAccountById", new { id = id });
 
         }
 
@@ -55,7 +77,7 @@ namespace Banking_system.Controllers
 
             var account = await unitOfWork.AccountsRepo.GetByIdAsync(id);
 
-            if (account == null) return NotFound();
+            if (account == null) return NotFound("there is no account with this id");
 
             account.accountStatus = (AccountStatus)Enum.Parse(typeof(AccountStatus), acc.accountStatus);
             await unitOfWork.Complete();
@@ -71,7 +93,7 @@ namespace Banking_system.Controllers
 
             var account = await unitOfWork.AccountsRepo.GetByIdAsync(id);
 
-            if (account == null) return NotFound();
+            if (account == null) return NotFound("there is no account with this id");
 
             account.accountType = (AccountType)Enum.Parse(typeof(AccountType), acc.accountType);
 

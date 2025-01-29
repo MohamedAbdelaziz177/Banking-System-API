@@ -9,7 +9,7 @@ namespace Banking_system.AutoMapperProfiles
     {
         public AccountMappingProfile()
         {
-            // Kosom Git
+            // Fuck Git (-_-)
             CreateMap<AccountCreateDto, Account>()
                 .ForMember(dest => dest.accountType,
                 option => option.MapFrom(src => Enum.Parse<AccountType>(src.AccountType, true)))
