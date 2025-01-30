@@ -20,12 +20,20 @@ namespace Banking_system.Repositories.MRepositories
            
         }
 
-        public async Task deleteAsync(int id)
+        public async Task<bool> deleteAsync(int id)
         {
            
             var rec = await dbset.FindAsync(id);
+
+            if(rec == null)
+            {
+                return false;
+            }
+
             dbset.Remove(rec);
             await con.SaveChangesAsync();
+
+            return true;
         }
 
         public async Task<List<T>> GetAllAsync()

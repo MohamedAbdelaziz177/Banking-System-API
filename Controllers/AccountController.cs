@@ -108,7 +108,10 @@ namespace Banking_system.Controllers
         [HttpDelete("Delete/{id:int}")]
         public async Task<IActionResult> DeleteAccount([FromRoute] int id) 
         {
-            await unitOfWork.AccountsRepo.deleteAsync(id);
+            bool flag = await unitOfWork.AccountsRepo.deleteAsync(id);
+
+            if (!flag) return NotFound("This id doesn't exist");
+
             return NoContent();
         }
         
