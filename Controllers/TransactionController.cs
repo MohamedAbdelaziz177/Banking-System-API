@@ -1,8 +1,12 @@
-﻿using Banking_system.DTO_s.TransactionDto_s;
+﻿using AutoMapper;
+using Banking_system.DTO_s.TransactionDto_s;
 using Banking_system.Model;
+using Banking_system.UnitOfWork;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore.Metadata;
+using System.Diagnostics;
 
 namespace Banking_system.Controllers
 {
@@ -10,76 +14,177 @@ namespace Banking_system.Controllers
     [ApiController]
     public class TransactionController : ControllerBase
     {
+        private readonly IUnitOfWork unitOfWork;
+        private readonly IMapper mapper;
+
+        public TransactionController(IUnitOfWork unitOfWork, IMapper mapper)
+        {
+            this.unitOfWork = unitOfWork;
+            this.mapper = mapper;
+        }
         // 1- Normal Customer allowed Transactions
 
-        [HttpPost("Deposit")]
-        public IActionResult Deposit(TransactionCreateDto trx)
+        [HttpGet("Deposit/{id:int}")]
+        public async Task<IActionResult> Deposit(TransactionCreateDto trxDto)
         {
+            var transaction = unitOfWork.BeginTransaction();
+            try
+            {
+                await unitOfWork.AccountsRepo.Deposit((int)trxDto.ToAccountId, trxDto.amount);
+
+                Transaction trxx = mapper.Map<Transaction>(trxDto);
+
+                await unitOfWork.TransactionsRepo.insertAsync(trxx);
+
+                await transaction.CommitAsync();
+
+                return Ok(trxDto);
+            }
+            catch (Exception ex) 
+            {
+                transaction.Rollback();
+            }
+
             return Ok();
+            return BadRequest();
+
         }
 
         [HttpPost("Withdraw")]
-        public IActionResult Withdraw(TransactionCreateDto trx)
+        public async Task<IActionResult> Withdraw(TransactionCreateDto trxDto)
         {
-            return Ok();
+            var transaction = unitOfWork.BeginTransaction();
+            try
+            {
+                bool f = await unitOfWork.AccountsRepo.Withdraw((int)trxDto.FromAccountId, trxDto.amount);
+
+                if(!f) return BadRequest();
+
+
+                Transaction trxx = mapper.Map<Transaction>(trxDto);
+
+                await unitOfWork.TransactionsRepo.insertAsync(trxx);
+
+                await transaction.CommitAsync();
+
+                return Ok(trxDto);
+
+            }
+            catch {
+                transaction.Rollback();
+                return BadRequest();
+
+            }
 
         }
 
         [HttpPost("Transfer")]
-        public IActionResult Transfer(TransactionCreateDto trx)
+        public async Task<IActionResult> Transfer(TransactionCreateDto trx)
         {
-            return Ok();
+            var transaction = unitOfWork.BeginTransaction();
+            try
+            {
+                bool f = await unitOfWork.AccountsRepo.Withdraw((int)trx.FromAccountId, trx.amount);
+
+                if(!f) return BadRequest();
+
+                await unitOfWork.AccountsRepo.Deposit((int)trx.ToAccountId, trx.amount);
+
+                TransactionCreateDto transDto = new TransactionCreateDto();
+               
+
+                Transaction trxx = mapper.Map<Transaction>(trx);
+                await unitOfWork.TransactionsRepo.insertAsync(trxx);
+
+
+                transaction.Commit();
+
+                return Ok(trx);
+            }
+            catch { 
+                transaction.Rollback(); 
+                return BadRequest();
+            }
 
         }
 
-        [HttpPost("Pay")]
-        public IActionResult Pay(TransactionCreateDto trx)
-        {
-            return Ok();
-
-        }
+       
 
         [HttpGet("GetTransactionById/{id:int}")]
-        public IActionResult GetTransactionById(int id)
+        public async Task<IActionResult> GetTransactionById(int id)
         {
-            return Ok();
+            var trx = await unitOfWork.TransactionsRepo.GetByIdAsync(id);
+
+            if (trx == null) return NotFound("Id doesn't exist");
+
+            var trxDto = mapper.Map<TransactionReadDto>(trx);
+
+            return Ok(trxDto);
         }
 
 
         [HttpGet("GetTransactionsByAccId/{id:int}")]
-        public IActionResult GetTransactionsByAccId(int id)
+        public async Task<IActionResult> GetTransactionsByAccId(int id)
         {
-            return Ok();
+            var allTrx = await unitOfWork.TransactionsRepo.GetAllTrxByAccId(id);
+            var TransDto = new List<TransactionReadDto>();
+
+            foreach (var trx in allTrx)
+                TransDto.Add(mapper.Map<TransactionReadDto>(trx));
+
+            return Ok(allTrx);
         }
 
         [HttpGet("GetTransactionsFromAccByAccId/{id:int}")]
-        public IActionResult GetTransactionsFromAccByAccId(int id)
+        public async Task<IActionResult> GetTransactionsFromAccByAccId(int id)
         {
-            return Ok();
+            var allTrx = await unitOfWork.TransactionsRepo.GetAllTrxByFromAccId(id);
+            var TransDto = new List<TransactionReadDto>();
+
+            foreach (var trx in allTrx)
+                TransDto.Add(mapper.Map<TransactionReadDto>(trx));
+
+            return Ok(allTrx);
         }
 
         [HttpGet("GetTransactionsToAccByAccId/{id:int}")]
-        public IActionResult GetTransactionsToAccByAccId(int id)
+        public async Task<IActionResult> GetTransactionsToAccByAccId(int id)
         {
-            return Ok();
+            var allTrx = await unitOfWork.TransactionsRepo.GetAllTrxByToAccId(id);
+            var TransDto = new List<TransactionReadDto>();
+
+            foreach (var trx in allTrx)
+                TransDto.Add(mapper.Map<TransactionReadDto>(trx));
+
+            return Ok(allTrx);
         }
 
 
 
         // 2- only Admin allowed Transactions
 
-        [Authorize(Roles = "admin")]
+       // [Authorize(Roles = "admin")]
         [HttpGet("GetAllTransactions")]
-        public IActionResult GetAllTransactions()
-        { 
-            return Ok();
+        public async Task<IActionResult> GetAllTransactions()
+        {
+            var Trans = await unitOfWork.TransactionsRepo.GetAllAsync();
+
+            var TransDto = new List<TransactionReadDto>();
+
+            foreach (var trx in Trans)
+                TransDto.Add(mapper.Map<TransactionReadDto>(trx));
+
+            return Ok(TransDto);
         }
 
         [Authorize(Roles = "admin")]
         [HttpDelete("DeleteTransaction")]
-        public IActionResult DeleteTransaction(int id) 
+        public async Task<IActionResult> DeleteTransaction(int id) 
         {
-            return Ok();
+            bool flg = await unitOfWork.TransactionsRepo.deleteAsync(id);
+            if (!flg) return NotFound("id doesn't exist");
+
+            return NoContent();
         }
 
 

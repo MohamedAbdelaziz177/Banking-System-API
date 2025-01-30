@@ -27,7 +27,8 @@ namespace Banking_system.Controllers
         {
             var accounts = await unitOfWork.AccountsRepo.GetAllAsync();
 
-            List<AccountReadDto> accountsDto = new List<AccountReadDto>();
+            var accountsDto = new List<AccountReadDto>();
+
             foreach (var account in accounts)
             {
                 accountsDto.Add(mapper.Map<AccountReadDto>(account));

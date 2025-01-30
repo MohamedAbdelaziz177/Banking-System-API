@@ -2,6 +2,7 @@
 using Banking_system.Model;
 using Banking_system.Repositories.IRepositories;
 using Banking_system.Repositories.MRepositories;
+using Microsoft.EntityFrameworkCore.Storage;
 
 namespace Banking_system.UnitOfWork
 {
@@ -33,7 +34,13 @@ namespace Banking_system.UnitOfWork
             return await con.SaveChangesAsync();
         }
 
-       
+        public IDbContextTransaction BeginTransaction()
+        {
+            return con.Database.BeginTransaction();
+        }
+
+
+
         void IDisposable.Dispose()
         {
             con.Dispose();

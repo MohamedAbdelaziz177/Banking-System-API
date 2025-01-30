@@ -13,7 +13,7 @@ namespace Banking_system.DTO_s.CardDto_s
         [CheckEnumValue(typeof(CardStatus), ErrorMessage = "only active - blocked - expired")]
         public string cardStatus { get; set; }
         //public int CustomerId { get; set; }
-        public decimal moneyAvailable { get; set; }
-        public DateTime ExpiryDate { get; set; }
+        public decimal amount { get; set; }
+        public DateTime ExpiryDate { get; set; } 
     }
 }

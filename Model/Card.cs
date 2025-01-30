@@ -14,7 +14,7 @@ namespace Banking_system.Model
 
         public CardStatus cardStatus { get; set; }
 
-        public DateTime ExpiryDate { get; set; }
+        public DateTime ExpiryDate { get; set; } = DateTime.Now.AddYears(2);
 
         public decimal amount { get; set; }
         public decimal? Limit { get; set; } // if the card is debit / prepaid

@@ -154,6 +154,43 @@
   },
   {
     "ContainingType": "Banking_system.Controllers.CardController",
+    "Method": "ChangeCardStatus",
+    "RelativePath": "api/Card/ChangeCardStattus/{id}",
+    "HttpMethod": "PUT",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Int32",
+        "IsRequired": true
+      },
+      {
+        "Name": "Status",
+        "Type": "System.String",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "Banking_system.Controllers.CardController",
+    "Method": "CheckExpiring",
+    "RelativePath": "api/Card/CheckExpiring/{id}",
+    "HttpMethod": "PUT",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "Banking_system.Controllers.CardController",
     "Method": "CreateCard",
     "RelativePath": "api/Card/CreateCard",
     "HttpMethod": "POST",
@@ -196,6 +233,11 @@
         "Name": "id",
         "Type": "System.Int32",
         "IsRequired": true
+      },
+      {
+        "Name": "amount",
+        "Type": "System.Decimal",
+        "IsRequired": false
       }
     ],
     "ReturnTypes": []
@@ -215,6 +257,22 @@
     "Method": "GetCardById",
     "RelativePath": "api/Card/GetCardById/{id}",
     "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "Banking_system.Controllers.CardController",
+    "Method": "SetExpiryDate",
+    "RelativePath": "api/Card/SetExpiryDate/{id}",
+    "HttpMethod": "PUT",
     "IsController": true,
     "Order": 0,
     "Parameters": [
@@ -259,6 +317,11 @@
         "Name": "id",
         "Type": "System.Int32",
         "IsRequired": true
+      },
+      {
+        "Name": "amount",
+        "Type": "System.Decimal",
+        "IsRequired": false
       }
     ],
     "ReturnTypes": []
@@ -476,14 +539,19 @@
   {
     "ContainingType": "Banking_system.Controllers.TransactionController",
     "Method": "Deposit",
-    "RelativePath": "api/Transaction/Deposit",
-    "HttpMethod": "POST",
+    "RelativePath": "api/Transaction/Deposit/{id}",
+    "HttpMethod": "GET",
     "IsController": true,
     "Order": 0,
     "Parameters": [
       {
-        "Name": "trx",
+        "Name": "trxDto",
         "Type": "Banking_system.DTO_s.TransactionDto_s.TransactionCreateDto",
+        "IsRequired": true
+      },
+      {
+        "Name": "id",
+        "Type": "",
         "IsRequired": true
       }
     ],
@@ -565,22 +633,6 @@
   },
   {
     "ContainingType": "Banking_system.Controllers.TransactionController",
-    "Method": "Pay",
-    "RelativePath": "api/Transaction/Pay",
-    "HttpMethod": "POST",
-    "IsController": true,
-    "Order": 0,
-    "Parameters": [
-      {
-        "Name": "trx",
-        "Type": "Banking_system.DTO_s.TransactionDto_s.TransactionCreateDto",
-        "IsRequired": true
-      }
-    ],
-    "ReturnTypes": []
-  },
-  {
-    "ContainingType": "Banking_system.Controllers.TransactionController",
     "Method": "Transfer",
     "RelativePath": "api/Transaction/Transfer",
     "HttpMethod": "POST",
@@ -604,7 +656,7 @@
     "Order": 0,
     "Parameters": [
       {
-        "Name": "trx",
+        "Name": "trxDto",
         "Type": "Banking_system.DTO_s.TransactionDto_s.TransactionCreateDto",
         "IsRequired": true
       }

@@ -1,5 +1,6 @@
 ﻿using Banking_system.Model;
 using Banking_system.Repositories.IRepositories;
+using Microsoft.EntityFrameworkCore.Storage;
 
 namespace Banking_system.UnitOfWork
 {
@@ -13,8 +14,11 @@ namespace Banking_system.UnitOfWork
 
         public ITransactionRepo TransactionsRepo { get; }
 
+        public IDbContextTransaction BeginTransaction();
 
-      
+
+
+
 
         Task<int> Complete();
 

@@ -8,6 +8,7 @@ namespace Banking_system.DTO_s.CustomerDto_s
         [MinLength(5)]
         [MaxLength(20)]
         public string Name { get; set; }
+        public int UserId { get; set; }
 
         [EmailAddress]
         public string Email { get; set; }
