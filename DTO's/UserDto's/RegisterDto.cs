@@ -8,12 +8,12 @@ namespace Banking_system.DTO_s
         [Required]
         [MinLength(5)]
         [MaxLength(50)]
-        public string name { get; set; }
+        public string UserName { get; set; }
         [Required]
 
         [MaxLength(50)]
         [EmailAddress]
-        public string email { get; set; }
+        public string Email { get; set; }
 
         [Required]
         [PasswordPropertyText]

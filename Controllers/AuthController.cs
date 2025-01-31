@@ -1,4 +1,5 @@
-﻿using Banking_system.DTO_s;
+﻿using AutoMapper;
+using Banking_system.DTO_s;
 using Banking_system.Model;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
@@ -19,11 +20,13 @@ namespace Banking_system.Controllers
         
         private readonly UserManager<AppUser> userManager;
         private readonly IConfiguration config;
+        private readonly IMapper mapper;
 
-        public AuthController(UserManager<AppUser> userManager, IConfiguration config)
+        public AuthController(UserManager<AppUser> userManager, IConfiguration config, IMapper mapper)
         {
             this.userManager = userManager;
             this.config = config;
+            this.mapper = mapper;
         }
 
         [HttpPost("Register")]
@@ -31,15 +34,15 @@ namespace Banking_system.Controllers
         {
             if (ModelState.IsValid) 
             {
-                AppUser AppUser = new AppUser();
-                AppUser.Email = user.email;
-                AppUser.UserName = user.name;
-                AppUser.Address = user.Address;
+                AppUser AppUser = mapper.Map<AppUser>(user);
 
                 IdentityResult res = await userManager.CreateAsync(AppUser, user.password);
 
                 if (res.Succeeded) 
                 {
+                    var resII = await userManager.AddToRoleAsync(AppUser, "user");
+
+                    if (resII.Succeeded)
                     return Ok(res);
                 }
 

@@ -1,8 +1,10 @@
 
+using Banking_system.AutoMapperProfiles;
 using Banking_system.Data;
 using Banking_system.Model;
 using Banking_system.UnitOfWork;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Routing.Constraints;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
@@ -31,6 +33,7 @@ namespace Banking_system
 
             builder.Services.AddIdentity<AppUser, Role>().
                 AddEntityFrameworkStores<AppDbContext>();
+              
 
             builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
             .AddJwtBearer(options =>
@@ -66,23 +69,16 @@ namespace Banking_system
 
             app.UseCors("AllowAll");
 
-            /*
-            app.UseRouting();
-
-            app.UseEndpoints(endpoints =>
-            {
-                endpoints.MapControllers();
-            });
-            */
-
-
             // Configure the HTTP request pipeline.
             if (app.Environment.IsDevelopment())
             {
+                app.UseDeveloperExceptionPage();
                 app.UseSwagger();
                 app.UseSwaggerUI();
             }
 
+
+          //  app.UseAuthentication();
             app.UseAuthorization();
 
 

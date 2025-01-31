@@ -10,9 +10,10 @@ namespace Banking_system.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    [Authorize(Roles = "admin")]
+    //[Authorize(Roles = "admin")]
     public class RoleController : ControllerBase
     {
+        
         private readonly RoleManager<Role> roleManager;
         private readonly IMapper mapper;
 
@@ -22,47 +23,61 @@ namespace Banking_system.Controllers
             this.mapper = mapper;
         }
 
+        [HttpGet("GetAllRoles")]
+
+       
+
+
+        [HttpGet("GetRole/{id:int}")]
         public async Task<IActionResult> GetRoleById([FromRoute] int id)
         {
-            var role = roleManager.FindByIdAsync(id.ToString());
-            RoleDto mappedRole =  mapper.Map<RoleDto>(role);
+            var role = await roleManager.FindByIdAsync(id.ToString());
 
-            return Ok(mappedRole);
-            
+            if (role == null) return NotFound("This id doesn't exist");
+
+            RoleDto mappedRole = mapper.Map<RoleDto>(role);
+        
+            return Ok(role);
+        
         }
 
 
+        [HttpPost("AddRole")]
         public async Task<IActionResult> AddRole([FromBody] RoleDto role)
         {
-            if(!ModelState.IsValid) return BadRequest(ModelState);
-
-           var mappedRole = mapper.Map<Role>(role);
-           var res = await roleManager.CreateAsync(mappedRole);
-
-            if (res.Succeeded) 
+            if (!ModelState.IsValid) return BadRequest(ModelState);
+        
+            var mappedRole = mapper.Map<Role>(role);
+            var res = await roleManager.CreateAsync(mappedRole);
+        
+            if (res.Succeeded)
             {
-                return CreatedAtAction("GetRoleById", new {id = mappedRole.Id});
+                return CreatedAtAction("GetRoleById", new { id = mappedRole.Id });
             }
-
+        
             return BadRequest(ModelState);
-           
+        
         }
 
-        public async Task<IActionResult> UpdateRole([FromBody] RoleDto role)
+        [HttpPost("UpdateRole/{id:int}")]
+        public async Task<IActionResult> UpdateRole(int id, [FromBody] RoleDto role)
         {
             if (!ModelState.IsValid) return BadRequest(ModelState);
-
+        
             var mappedRole = mapper.Map<Role>(role);
 
+           // var r = await roleManager.FindByIdAsync(id.ToString());
+        
             var res = await roleManager.UpdateAsync(mappedRole);
-
-
-            if(res.Succeeded)
-            return Ok(mappedRole);
+        
+        
+            if (res.Succeeded)
+                return CreatedAtAction("GetRoleById", new { id = mappedRole.Id });
 
             return BadRequest(ModelState);
-
+        
         }
+
 
     }
 }

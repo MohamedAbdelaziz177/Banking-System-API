@@ -522,25 +522,9 @@
   },
   {
     "ContainingType": "Banking_system.Controllers.RoleController",
-    "Method": "GetRoleById",
-    "RelativePath": "api/Role",
-    "HttpMethod": "",
-    "IsController": true,
-    "Order": 0,
-    "Parameters": [
-      {
-        "Name": "id",
-        "Type": "System.Int32",
-        "IsRequired": false
-      }
-    ],
-    "ReturnTypes": []
-  },
-  {
-    "ContainingType": "Banking_system.Controllers.RoleController",
     "Method": "AddRole",
-    "RelativePath": "api/Role",
-    "HttpMethod": "",
+    "RelativePath": "api/Role/AddRole",
+    "HttpMethod": "POST",
     "IsController": true,
     "Order": 0,
     "Parameters": [
@@ -554,12 +538,49 @@
   },
   {
     "ContainingType": "Banking_system.Controllers.RoleController",
-    "Method": "UpdateRole",
-    "RelativePath": "api/Role",
-    "HttpMethod": "",
+    "Method": "GetRoleById",
+    "RelativePath": "api/Role/GetAllRoles",
+    "HttpMethod": "GET",
     "IsController": true,
     "Order": 0,
     "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Int32",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "Banking_system.Controllers.RoleController",
+    "Method": "GetRoleById",
+    "RelativePath": "api/Role/GetRole/{id}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "Banking_system.Controllers.RoleController",
+    "Method": "UpdateRole",
+    "RelativePath": "api/Role/UpdateRole/{id}",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Int32",
+        "IsRequired": true
+      },
       {
         "Name": "role",
         "Type": "Banking_system.DTO_s.RoleDto_s.RoleDto",

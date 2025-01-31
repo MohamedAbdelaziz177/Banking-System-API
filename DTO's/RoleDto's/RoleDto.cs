@@ -6,7 +6,7 @@ namespace Banking_system.DTO_s.RoleDto_s
     {
 
         [Required]
-        public string name { get; set; }
+        public string? Name { get; set; }
 
         public string? NormalizedName { get; set; } 
 
