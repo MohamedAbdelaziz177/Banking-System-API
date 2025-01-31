@@ -78,7 +78,7 @@ namespace Banking_system
             }
 
 
-          //  app.UseAuthentication();
+            app.UseAuthentication();
             app.UseAuthorization();
 
 

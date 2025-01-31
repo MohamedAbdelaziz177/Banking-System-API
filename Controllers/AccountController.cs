@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Banking_system.DTO_s;
 using Banking_system.DTO_s.AccountDto_s;
 using Banking_system.Enums.Account;
 using Banking_system.Model;
@@ -63,13 +64,18 @@ namespace Banking_system.Controllers
         [HttpPut("UpdateAccount/{id:int}")]
         public async Task<IActionResult> UpdateAccount([FromRoute] int id, [FromBody] AccountUpdateDto acc)
         {
-            if(!ModelState.IsValid) return BadRequest(ModelState);
+            if (!ModelState.IsValid) return BadRequest(ModelState);
 
-            var account = mapper.Map<Account>(acc);
-            await unitOfWork.AccountsRepo.updateAsync(id, account);
+            var existingAcc = await unitOfWork.AccountsRepo.GetByIdAsync(id);
 
-            return CreatedAtAction("GetAccountById", new { id = id });
+            if (existingAcc == null) return NotFound("this id doesn't exist");
 
+            mapper.Map(acc, existingAcc);
+
+
+            await unitOfWork.AccountsRepo.updateAsync(id, existingAcc);
+
+            return Ok(existingAcc);
         }
 
         [HttpPut("ChangeAccountStatus/{id:int}")]

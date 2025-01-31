@@ -73,10 +73,16 @@ namespace Banking_system.Controllers
         {
             if (!ModelState.IsValid) return BadRequest(ModelState);
 
-            var mappedCard = mapper.Map<Card>(card);
-            await unitOfWork.CardsRepo.updateAsync(id, mappedCard);
+            var existingCard = await unitOfWork.CardsRepo.GetByIdAsync(id);
 
-            return CreatedAtAction("GetCardById", new { id = id });
+            if (existingCard == null) return NotFound("this id doesn't exist");
+
+             mapper.Map(card, existingCard);
+
+           
+            await unitOfWork.CardsRepo.updateAsync(id, existingCard);
+
+            return Ok(existingCard);
         }
 
         [HttpPut("ChangeCardStattus/{id:int}")]

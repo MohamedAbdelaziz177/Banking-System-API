@@ -69,13 +69,18 @@ namespace Banking_system.Controllers
         [HttpPut("UpdateLoan/{id:int}")]
         public async Task<IActionResult> UpdateLoan(int id, LoanUpdateDto loanDto)
         {
-            if (!ModelState.IsValid) return BadRequest();
+            if (!ModelState.IsValid) return BadRequest(ModelState);
 
-            var loan = mapper.Map<Loan>(loanDto);
+            var existingLoan = await unitOfWork.LoansRepo.GetByIdAsync(id);
 
-            await unitOfWork.LoansRepo.insertAsync(loan);
+            if (existingLoan == null) return NotFound("this id doesn't exist");
 
-            return CreatedAtAction(nameof(GetLoanById), new { id = loan.Id });
+            mapper.Map(loanDto, existingLoan);
+
+
+            await unitOfWork.LoansRepo.updateAsync(id, existingLoan);
+
+            return Ok(existingLoan);
         }
 
         [Authorize(Roles = "admin")]

@@ -66,11 +66,15 @@ namespace Banking_system.Controllers
         {
             if (!ModelState.IsValid) return BadRequest(ModelState);
 
-            Customer cust = mapper.Map<Customer>(customer);
+            var exisitingCust = await unitOfWork.CustomersRepo.GetByIdAsync(id);
 
-            await unitOfWork.CustomersRepo.updateAsync(id, cust);
+            if (exisitingCust == null) return NotFound("This id doesn't exist");
 
-            return CreatedAtAction(nameof(GetCustomerById), new {id = cust.Id});
+            mapper.Map(customer, exisitingCust);
+
+            await unitOfWork.CustomersRepo.updateAsync(id, exisitingCust);
+
+            return Ok(exisitingCust);
 
         }
 

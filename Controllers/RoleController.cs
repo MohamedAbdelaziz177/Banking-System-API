@@ -10,6 +10,7 @@ namespace Banking_system.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+
     //[Authorize(Roles = "admin")]
     public class RoleController : ControllerBase
     {
@@ -25,9 +26,9 @@ namespace Banking_system.Controllers
 
         [HttpGet("GetAllRoles")]
 
-       
 
 
+        
         [HttpGet("GetRole/{id:int}")]
         public async Task<IActionResult> GetRoleById([FromRoute] int id)
         {
@@ -64,15 +65,19 @@ namespace Banking_system.Controllers
         {
             if (!ModelState.IsValid) return BadRequest(ModelState);
         
-            var mappedRole = mapper.Map<Role>(role);
+          //  var mappedRole = mapper.Map<Role>(role);
 
-           // var r = await roleManager.FindByIdAsync(id.ToString());
-        
-            var res = await roleManager.UpdateAsync(mappedRole);
+            var existingRole = await roleManager.FindByIdAsync(id.ToString());
+
+            if (existingRole == null) return NotFound("This id doesn't exist");
+
+            mapper.Map(role, existingRole);
+
+            var res = await roleManager.UpdateAsync(existingRole);
         
         
             if (res.Succeeded)
-                return CreatedAtAction("GetRoleById", new { id = mappedRole.Id });
+                return CreatedAtAction("GetRoleById", new { id = existingRole.Id });
 
             return BadRequest(ModelState);
         
