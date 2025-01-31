@@ -50,10 +50,27 @@ namespace Banking_system.Data
             builder.Entity<Transaction>()
                 .HasOne(e => e.ToAccount)
                 .WithMany();
+
+
+            builder.Entity<Role>()
+                .HasData(SeedRoles());
  
         }
 
-       
+        private List<Role> SeedRoles()
+        {
+
+
+            var roles = new List<Role>();
+
+            roles.Add(new Role() { Id = 1, Name = "admin" });
+            roles.Add(new Role() { Id = 2, Name = "customer" });
+            roles.Add(new Role() { Id = 3, Name = "user" });
+
+            return roles;
+        }
+
+
 
 
     }

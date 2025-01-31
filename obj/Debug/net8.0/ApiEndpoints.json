@@ -521,6 +521,54 @@
     "ReturnTypes": []
   },
   {
+    "ContainingType": "Banking_system.Controllers.RoleController",
+    "Method": "GetRoleById",
+    "RelativePath": "api/Role",
+    "HttpMethod": "",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Int32",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "Banking_system.Controllers.RoleController",
+    "Method": "AddRole",
+    "RelativePath": "api/Role",
+    "HttpMethod": "",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "role",
+        "Type": "Banking_system.DTO_s.RoleDto_s.RoleDto",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "Banking_system.Controllers.RoleController",
+    "Method": "UpdateRole",
+    "RelativePath": "api/Role",
+    "HttpMethod": "",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "role",
+        "Type": "Banking_system.DTO_s.RoleDto_s.RoleDto",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
     "ContainingType": "Banking_system.Controllers.TransactionController",
     "Method": "DeleteTransaction",
     "RelativePath": "api/Transaction/DeleteTransaction",

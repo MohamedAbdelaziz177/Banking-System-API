@@ -149,3 +149,4 @@ F:\Banking system\obj\Debug\net8.0\Banking system.genruntimeconfig.cache
 F:\Banking system\obj\Debug\net8.0\ref\Banking system.dll
 F:\Banking system\bin\Debug\net8.0\AutoMapper.dll
 F:\Banking system\bin\Debug\net8.0\AutoMapper.Extensions.Microsoft.DependencyInjection.dll
+F:\Banking system\obj\Debug\net8.0\Banking system.sourcelink.json
