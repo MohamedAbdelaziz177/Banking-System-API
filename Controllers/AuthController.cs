@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using Banking_system.DTO_s;
 using Banking_system.Model;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -114,6 +115,28 @@ namespace Banking_system.Controllers
 
 
           
+        }
+
+       // [Authorize(Roles = "admin")]
+        [HttpPost("AddNewAdmin")]
+        public async Task<IActionResult> AddAdmin(RegisterDto user)
+        {
+            if(!ModelState.IsValid) 
+                return BadRequest(ModelState);
+
+            AppUser AppUser = mapper.Map<AppUser>(user);
+
+            IdentityResult res = await userManager.CreateAsync(AppUser, user.password);
+
+            if (res.Succeeded)
+            {
+                var resII = await userManager.AddToRoleAsync(AppUser, "admin");
+
+                if (resII.Succeeded)
+                    return Ok(res);
+            }
+
+            return BadRequest(ModelState);
         }
 
     

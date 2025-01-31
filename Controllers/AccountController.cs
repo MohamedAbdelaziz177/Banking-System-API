@@ -23,6 +23,8 @@ namespace Banking_system.Controllers
             this.mapper = mapper;
         }
 
+
+
         [HttpGet("GetAll")]
         public async Task<IActionResult> GetAllAccounts()
         {
