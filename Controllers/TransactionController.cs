@@ -163,7 +163,7 @@ namespace Banking_system.Controllers
 
         // 2- only Admin allowed Transactions
 
-       // [Authorize(Roles = "admin")]
+        [Authorize(Roles = "admin")]
         [HttpGet("GetAllTransactions")]
         public async Task<IActionResult> GetAllTransactions()
         {
