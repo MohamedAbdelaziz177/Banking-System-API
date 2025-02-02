@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore.Metadata;
 using System.Diagnostics;
+using System.Security.Claims;
 
 namespace Banking_system.Controllers
 {
@@ -27,6 +28,9 @@ namespace Banking_system.Controllers
         [HttpGet("Deposit/{id:int}")]
         public async Task<IActionResult> Deposit(TransactionCreateDto trxDto)
         {
+            bool check = await AllowedTo((int)trxDto.ToAccountId);
+            if (!check) return Forbid();
+
             var transaction = unitOfWork.BeginTransaction();
             try
             {
@@ -53,7 +57,10 @@ namespace Banking_system.Controllers
         [HttpPost("Withdraw")]
         public async Task<IActionResult> Withdraw(TransactionCreateDto trxDto)
         {
-            var transaction = unitOfWork.BeginTransaction();
+            bool check = await AllowedTo((int)trxDto.FromAccountId);
+            if (!check) return Forbid();
+
+            using var transaction = unitOfWork.BeginTransaction();
             try
             {
                 bool f = await unitOfWork.AccountsRepo.Withdraw((int)trxDto.FromAccountId, trxDto.amount);
@@ -81,7 +88,10 @@ namespace Banking_system.Controllers
         [HttpPost("Transfer")]
         public async Task<IActionResult> Transfer(TransactionCreateDto trx)
         {
-            var transaction = unitOfWork.BeginTransaction();
+            bool check = await AllowedTo((int)trx.FromAccountId);
+            if (!check) return Forbid();
+
+            using var transaction = unitOfWork.BeginTransaction();
             try
             {
                 bool f = await unitOfWork.AccountsRepo.Withdraw((int)trx.FromAccountId, trx.amount);
@@ -113,6 +123,8 @@ namespace Banking_system.Controllers
         [HttpGet("GetTransactionById/{id:int}")]
         public async Task<IActionResult> GetTransactionById(int id)
         {
+           
+
             var trx = await unitOfWork.TransactionsRepo.GetByIdAsync(id);
 
             if (trx == null) return NotFound("Id doesn't exist");
@@ -126,6 +138,9 @@ namespace Banking_system.Controllers
         [HttpGet("GetTransactionsByAccId/{id:int}")]
         public async Task<IActionResult> GetTransactionsByAccId(int id)
         {
+            bool check = await AllowedTo(id);
+            if (!check) return Forbid();
+
             var allTrx = await unitOfWork.TransactionsRepo.GetAllTrxByAccId(id);
             var TransDto = new List<TransactionReadDto>();
 
@@ -138,6 +153,9 @@ namespace Banking_system.Controllers
         [HttpGet("GetTransactionsFromAccByAccId/{id:int}")]
         public async Task<IActionResult> GetTransactionsFromAccByAccId(int id)
         {
+            bool check = await AllowedTo(id);
+            if (!check) return Forbid();
+
             var allTrx = await unitOfWork.TransactionsRepo.GetAllTrxByFromAccId(id);
             var TransDto = new List<TransactionReadDto>();
 
@@ -150,6 +168,9 @@ namespace Banking_system.Controllers
         [HttpGet("GetTransactionsToAccByAccId/{id:int}")]
         public async Task<IActionResult> GetTransactionsToAccByAccId(int id)
         {
+            bool check = await AllowedTo(id);
+            if (!check) return Forbid();
+
             var allTrx = await unitOfWork.TransactionsRepo.GetAllTrxByToAccId(id);
             var TransDto = new List<TransactionReadDto>();
 
@@ -187,6 +208,26 @@ namespace Banking_system.Controllers
             return NoContent();
         }
 
+        // Normal Functions serving the logic
+       
 
+        private async Task<bool> AllowedTo(int id)
+        {
+            var UserID = int.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier));
+            var isAdmin = User.IsInRole("admin");
+
+            var acc = await unitOfWork.AccountsRepo.GetByIdAsync(id);
+            var AccOwner = await unitOfWork.CustomersRepo.GetByIdAsync(acc.customerId);
+            var AccUserId = AccOwner.UserId;
+
+            var checkUserId = (AccUserId == UserID);
+
+            if (!checkUserId && !isAdmin)
+                return false;
+
+
+            return true;
+
+        }
     }
 }

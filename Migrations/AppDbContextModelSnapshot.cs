@@ -46,7 +46,7 @@ namespace Banking_system.Migrations
 
                     b.HasIndex("customerId");
 
-                    b.ToTable("Accounts");
+                    b.ToTable("Accounts", (string)null);
                 });
 
             modelBuilder.Entity("Banking_system.Model.AppUser", b =>
@@ -155,7 +155,7 @@ namespace Banking_system.Migrations
 
                     b.HasIndex("customerId");
 
-                    b.ToTable("Cards");
+                    b.ToTable("Cards", (string)null);
                 });
 
             modelBuilder.Entity("Banking_system.Model.Customer", b =>
@@ -173,7 +173,7 @@ namespace Banking_system.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("Customers");
+                    b.ToTable("Customers", (string)null);
                 });
 
             modelBuilder.Entity("Banking_system.Model.Loan", b =>
@@ -206,7 +206,7 @@ namespace Banking_system.Migrations
 
                     b.HasIndex("customerId");
 
-                    b.ToTable("Loans");
+                    b.ToTable("Loans", (string)null);
                 });
 
             modelBuilder.Entity("Banking_system.Model.Role", b =>
@@ -285,7 +285,7 @@ namespace Banking_system.Migrations
 
                     b.HasIndex("ToAccountId");
 
-                    b.ToTable("Transactions");
+                    b.ToTable("Transactions", (string)null);
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<int>", b =>

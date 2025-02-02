@@ -7,6 +7,7 @@ using Banking_system.UnitOfWork;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using System.Security.Claims;
 
 namespace Banking_system.Controllers
 {
@@ -24,7 +25,7 @@ namespace Banking_system.Controllers
         }
 
 
-
+        [Authorize(Roles = "admin")]
         [HttpGet("GetAll")]
         public async Task<IActionResult> GetAllAccounts()
         {
@@ -39,9 +40,14 @@ namespace Banking_system.Controllers
             return Ok(accountsDto);
         }
 
+
         [HttpGet("GetAccountById/{id:int}")]
         public async Task<IActionResult> GetAccountById([FromRoute] int id)
         {
+            bool check = await AllowedTo(id);
+
+            if (!check) return Forbid();
+
             var account = await unitOfWork.AccountsRepo.GetByIdAsync(id);
 
             if(account == null) return NotFound("there is no account with this id");
@@ -52,6 +58,7 @@ namespace Banking_system.Controllers
             
         }
 
+        [Authorize(Roles ="admin")]
         [HttpPost("CreateAccount")]
         public async Task<IActionResult> CreateAccount([FromBody] AccountCreateDto acc)
         {
@@ -63,6 +70,7 @@ namespace Banking_system.Controllers
             return CreatedAtAction("GetAccountById", new {id = account.Id});
         }
 
+        [Authorize(Roles ="admin")]
         [HttpPut("UpdateAccount/{id:int}")]
         public async Task<IActionResult> UpdateAccount([FromRoute] int id, [FromBody] AccountUpdateDto acc)
         {
@@ -80,10 +88,15 @@ namespace Banking_system.Controllers
             return Ok(existingAcc);
         }
 
+        
         [HttpPut("ChangeAccountStatus/{id:int}")]
         public async Task<IActionResult> ChangeAccountStatus([FromRoute] int id, [FromBody] ChangeAccStatusDto acc)
         {
-            if(!ModelState.IsValid) return BadRequest(ModelState);
+            bool check = await AllowedTo(id);
+
+            if (!check) return Forbid();
+
+            if (!ModelState.IsValid) return BadRequest(ModelState);
 
             var account = await unitOfWork.AccountsRepo.GetByIdAsync(id);
 
@@ -96,9 +109,14 @@ namespace Banking_system.Controllers
 
         }
 
+        
         [HttpPut("ChangeAccountType/{id:int}")]
         public async Task<IActionResult> ChangeAccountType([FromRoute] int id, [FromBody] ChangeAccTypeDto acc)
         {
+            bool check = await AllowedTo(id);
+
+            if (!check) return Forbid();
+
             if (!ModelState.IsValid) return BadRequest(ModelState);
 
             var account = await unitOfWork.AccountsRepo.GetByIdAsync(id);
@@ -123,6 +141,25 @@ namespace Banking_system.Controllers
 
             return NoContent();
         }
-        
+
+        // Normal Functions serving the logic
+        private async Task<bool> AllowedTo(int accId)
+        {
+            var UserID = int.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier));
+            var isAdmin = User.IsInRole("admin");
+
+            var acc = await unitOfWork.AccountsRepo.GetByIdAsync(accId);
+            var AccOwner = await unitOfWork.CustomersRepo.GetByIdAsync(acc.customerId);
+            var AccUserId = AccOwner.UserId;
+
+            var checkUserId = (AccUserId == UserID);
+
+            if (!checkUserId && !isAdmin)
+                return false;
+
+
+            return true;
+        }
+
     }
 }

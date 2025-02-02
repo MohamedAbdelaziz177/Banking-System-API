@@ -7,6 +7,7 @@ using Banking_system.UnitOfWork;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using System.Security.Claims;
 
 namespace Banking_system.Controllers
 {
@@ -23,6 +24,7 @@ namespace Banking_system.Controllers
             this.mapper = mapper;
         }
 
+        [Authorize(Roles = "admin")]
         [HttpGet("GetAllLoans")]
         public async Task<IActionResult> GetAllLoans()
         {
@@ -42,6 +44,10 @@ namespace Banking_system.Controllers
         [HttpGet("GelLoanById/{id:int}")]
         public async  Task<IActionResult> GetLoanById(int id)
         {
+            bool check = await AllowedTo(id);
+
+            if (!check) return Forbid();
+
             var loan = await unitOfWork.LoansRepo.GetByIdAsync(id);
 
             if(loan == null) return NotFound("id doesn't exist");
@@ -98,6 +104,8 @@ namespace Banking_system.Controllers
         [HttpGet("GetLoanByCustomerId/{id:int}")]
         public async Task<IActionResult> GetLoanByCustomerId(int id) 
         {
+           
+
             var allLoans = await unitOfWork.LoansRepo.GetAllAsync();
             var filteredLoans = allLoans.Where(e => e.customerId == id);
 
@@ -127,6 +135,24 @@ namespace Banking_system.Controllers
             return Ok(filteredLoans);
         }
 
+        // Normal Functions serving the logic
+        private async Task<bool> AllowedTo(int loanId)
+        {
+            var UserID = int.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier));
+            var isAdmin = User.IsInRole("admin");
+
+            var loan = await unitOfWork.LoansRepo.GetByIdAsync(loanId);
+            var loanOwner = await unitOfWork.CustomersRepo.GetByIdAsync(loan.customerId);
+            var loanOwnerId = loanOwner.UserId;
+
+            var checkUserId = (loanOwnerId == UserID);
+
+            if (!checkUserId && !isAdmin)
+                return false;
+
+
+            return true;
+        }
 
     }
 }

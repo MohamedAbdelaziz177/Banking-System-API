@@ -8,6 +8,7 @@ using Banking_system.UnitOfWork;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using System.Security.Claims;
 
 namespace Banking_system.Controllers
 {
@@ -38,9 +39,16 @@ namespace Banking_system.Controllers
             return Ok(allCardsDto);
         }
 
+
+
         [HttpGet("GetCardById/{id:int}")]
-        public IActionResult GetCardById(int id)
+        public async Task<IActionResult> GetCardById(int id)
         {
+            bool check = await AllowedTo(id);
+
+            if(!check) return Forbid();
+
+
             var card = unitOfWork.CardsRepo.GetByIdAsync(id);
 
             var cardDto = mapper.Map<CardReadDto>(card);
@@ -78,13 +86,13 @@ namespace Banking_system.Controllers
             if (existingCard == null) return NotFound("this id doesn't exist");
 
              mapper.Map(card, existingCard);
-
-           
+        
             await unitOfWork.CardsRepo.updateAsync(id, existingCard);
 
             return Ok(existingCard);
         }
 
+        [Authorize(Roles = "admin")]
         [HttpPut("ChangeCardStattus/{id:int}")]
         public async Task<IActionResult> ChangeCardStatus(int id, [FromQuery]string Status)
         {
@@ -111,8 +119,8 @@ namespace Banking_system.Controllers
         }
 
         [Authorize(Roles = "admin")]
-        [HttpPut("CheckExpiring/{id:int}")]
-        public async Task<IActionResult> CheckExpiring()
+        [HttpPut("ExpireCards/{id:int}")]
+        public async Task<IActionResult> ExpireCards()
         {
             var cards = await unitOfWork.CardsRepo.GetAllAsync();
             var expiredCards = new List<Card>();
@@ -134,6 +142,11 @@ namespace Banking_system.Controllers
         [HttpPut("Deposit/{id:int}")]
         public async Task<IActionResult> Deposit(int id, [FromQuery]decimal amount)
         {
+            bool check = await AllowedTo(id);
+
+            if (!check) return Forbid();
+
+
             var card = await unitOfWork.CardsRepo.GetByIdAsync(id);
 
             if (card == null) return NotFound("This id doesn't exist");
@@ -149,6 +162,10 @@ namespace Banking_system.Controllers
         [HttpPut("Withdraw/{id:int}")]
         public async Task<IActionResult> Withdraw(int id, [FromQuery] decimal amount)
         {
+            bool check = await AllowedTo(id);
+
+            if (!check) return Forbid();
+
             var card = await unitOfWork.CardsRepo.GetByIdAsync(id);
 
             if (card == null) return NotFound("This id doesn't exist");
@@ -171,6 +188,26 @@ namespace Banking_system.Controllers
             if (!flag) return NotFound("id deosn't exist");
 
             return NoContent();
+        }
+
+
+        // Normal Functions serving the logic
+        private async Task<bool> AllowedTo(int cardId)
+        {
+            var UserID = int.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier));
+            var isAdmin = User.IsInRole("admin");
+
+            var card = await unitOfWork.CardsRepo.GetByIdAsync(cardId);
+            var CardOwner = await unitOfWork.CustomersRepo.GetByIdAsync(card.customerId);
+            var CardUserId = CardOwner.UserId;
+
+            var checkUserId = (CardUserId == UserID);
+
+            if (!checkUserId && !isAdmin)
+                return false;
+            
+
+            return true;
         }
 
         private string GenerateCardNumber()

@@ -5,6 +5,7 @@ using Banking_system.UnitOfWork;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using System.Security.Claims;
 
 namespace Banking_system.Controllers
 {
@@ -21,6 +22,7 @@ namespace Banking_system.Controllers
             this.mapper = mapper;
         }
 
+        [Authorize(Roles = "admin")]
         [HttpGet("GetAllCustomers")]
         public async Task<IActionResult> GetAllCustomers()
         {
@@ -40,6 +42,12 @@ namespace Banking_system.Controllers
         [HttpGet("GetCustomerById{id:int}")]
         public async Task<IActionResult> GetCustomerById([FromRoute] int id) 
         {
+
+            bool check = await AllowedTo(id);
+
+            if (!check) return Forbid();
+
+
             var cust = await unitOfWork.CustomersRepo.GetByIdAsync(id); 
 
             if (cust == null) return NotFound("This id is not found");
@@ -49,6 +57,9 @@ namespace Banking_system.Controllers
             return Ok(custDto);
         }
 
+
+
+        [Authorize(Roles = ("admin"))]
         [HttpPost("AddNewCustomer")]
         public async Task<IActionResult> AddNewCustomer([FromBody] CustomerCreateDto customer)
         {
@@ -60,8 +71,9 @@ namespace Banking_system.Controllers
             return CreatedAtAction(nameof(GetCustomerById), new { id = cust.Id });
         }
 
+
+        [Authorize(Roles = ("admin"))]
         [HttpPut("UpdateCustomer{id:int}")]
-        
         public async Task<IActionResult> UpdateCustomer(int id, [FromBody] CustomerUpdateDto customer)
         {
             if (!ModelState.IsValid) return BadRequest(ModelState);
@@ -78,6 +90,7 @@ namespace Banking_system.Controllers
 
         }
 
+
         [Authorize(Roles = "admin")]
         [HttpDelete("DeleteCustomer{id:int}")]
         public async Task<IActionResult> DeleteCustomer(int id)
@@ -88,6 +101,24 @@ namespace Banking_system.Controllers
 
             return NoContent();
 
+        }
+
+
+        // Normal Function helps in logic
+        private async Task<bool> AllowedTo(int  customerId)
+        {
+            var UserID = int.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier));
+            var isAdmin = User.IsInRole("admin");
+
+            var customer = await unitOfWork.CustomersRepo.GetByIdAsync(customerId);
+            var checkUserId = (customer.UserId == UserID);
+
+            if (!checkUserId && !isAdmin)
+            {
+                return false;
+            }
+
+            return true;
         }
 
     }

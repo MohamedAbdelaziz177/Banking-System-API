@@ -10,8 +10,9 @@ namespace Banking_system.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    //[Authorize]
 
-    //[Authorize(Roles = "admin")]
+    [Authorize(Roles = "admin")]
     public class RoleController : ControllerBase
     {
         
@@ -24,7 +25,7 @@ namespace Banking_system.Controllers
             this.mapper = mapper;
         }
 
-        [HttpGet("GetAllRoles")]
+        //[HttpGet("GetAllRoles")]
 
 
 

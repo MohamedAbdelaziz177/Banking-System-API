@@ -117,7 +117,7 @@ namespace Banking_system.Controllers
           
         }
 
-       // [Authorize(Roles = "admin")]
+        [Authorize(Roles = "admin")]
         [HttpPost("AddNewAdmin")]
         public async Task<IActionResult> AddAdmin(RegisterDto user)
         {
