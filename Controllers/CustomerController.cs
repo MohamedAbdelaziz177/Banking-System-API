@@ -68,7 +68,7 @@ namespace Banking_system.Controllers
             Customer cust = mapper.Map<Customer>(customer);
             await unitOfWork.CustomersRepo.insertAsync(cust);
 
-            return CreatedAtAction(nameof(GetCustomerById), new { id = cust.Id });
+            return CreatedAtAction(nameof(GetCustomerById), new { id = cust.Id }, cust);
         }
 
 

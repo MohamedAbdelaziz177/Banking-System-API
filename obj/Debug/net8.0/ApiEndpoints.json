@@ -171,7 +171,7 @@
   {
     "ContainingType": "Banking_system.Controllers.CardController",
     "Method": "ChangeCardStatus",
-    "RelativePath": "api/Card/ChangeCardStattus/{id}",
+    "RelativePath": "api/Card/admin/ChangeCardStattus/{id}",
     "HttpMethod": "PUT",
     "IsController": true,
     "Order": 0,
@@ -192,7 +192,7 @@
   {
     "ContainingType": "Banking_system.Controllers.CardController",
     "Method": "CreateCard",
-    "RelativePath": "api/Card/CreateCard",
+    "RelativePath": "api/Card/admin/CreateCard",
     "HttpMethod": "POST",
     "IsController": true,
     "Order": 0,
@@ -208,7 +208,7 @@
   {
     "ContainingType": "Banking_system.Controllers.CardController",
     "Method": "DeleteCard",
-    "RelativePath": "api/Card/Delete/{id}",
+    "RelativePath": "api/Card/admin/Delete/{id}",
     "HttpMethod": "DELETE",
     "IsController": true,
     "Order": 0,
@@ -216,6 +216,69 @@
       {
         "Name": "id",
         "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "Banking_system.Controllers.CardController",
+    "Method": "ExpireCards",
+    "RelativePath": "api/Card/admin/ExpireCards/{id}",
+    "HttpMethod": "PUT",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "Banking_system.Controllers.CardController",
+    "Method": "GetAllCards",
+    "RelativePath": "api/Card/admin/GetAllCards",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "Banking_system.Controllers.CardController",
+    "Method": "SetExpiryDate",
+    "RelativePath": "api/Card/admin/SetExpiryDate/{id}",
+    "HttpMethod": "PUT",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "Banking_system.Controllers.CardController",
+    "Method": "UpdateCard",
+    "RelativePath": "api/Card/admin/UpdateCard/{id}",
+    "HttpMethod": "PUT",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Int32",
+        "IsRequired": true
+      },
+      {
+        "Name": "card",
+        "Type": "Banking_system.DTO_s.CardDto_s.CardUpdateDto",
         "IsRequired": true
       }
     ],
@@ -244,32 +307,6 @@
   },
   {
     "ContainingType": "Banking_system.Controllers.CardController",
-    "Method": "ExpireCards",
-    "RelativePath": "api/Card/ExpireCards/{id}",
-    "HttpMethod": "PUT",
-    "IsController": true,
-    "Order": 0,
-    "Parameters": [
-      {
-        "Name": "id",
-        "Type": "",
-        "IsRequired": true
-      }
-    ],
-    "ReturnTypes": []
-  },
-  {
-    "ContainingType": "Banking_system.Controllers.CardController",
-    "Method": "GetAllCards",
-    "RelativePath": "api/Card/GetAllCards",
-    "HttpMethod": "GET",
-    "IsController": true,
-    "Order": 0,
-    "Parameters": [],
-    "ReturnTypes": []
-  },
-  {
-    "ContainingType": "Banking_system.Controllers.CardController",
     "Method": "GetCardById",
     "RelativePath": "api/Card/GetCardById/{id}",
     "HttpMethod": "GET",
@@ -279,43 +316,6 @@
       {
         "Name": "id",
         "Type": "System.Int32",
-        "IsRequired": true
-      }
-    ],
-    "ReturnTypes": []
-  },
-  {
-    "ContainingType": "Banking_system.Controllers.CardController",
-    "Method": "SetExpiryDate",
-    "RelativePath": "api/Card/SetExpiryDate/{id}",
-    "HttpMethod": "PUT",
-    "IsController": true,
-    "Order": 0,
-    "Parameters": [
-      {
-        "Name": "id",
-        "Type": "System.Int32",
-        "IsRequired": true
-      }
-    ],
-    "ReturnTypes": []
-  },
-  {
-    "ContainingType": "Banking_system.Controllers.CardController",
-    "Method": "UpdateCard",
-    "RelativePath": "api/Card/UpdateCard/{id}",
-    "HttpMethod": "PUT",
-    "IsController": true,
-    "Order": 0,
-    "Parameters": [
-      {
-        "Name": "id",
-        "Type": "System.Int32",
-        "IsRequired": true
-      },
-      {
-        "Name": "card",
-        "Type": "Banking_system.DTO_s.CardDto_s.CardUpdateDto",
         "IsRequired": true
       }
     ],

@@ -67,7 +67,7 @@ namespace Banking_system.Controllers
 
             await unitOfWork.LoansRepo.insertAsync(loan);
             
-            return CreatedAtAction(nameof(GetLoanById), new {id = loan.Id});
+            return CreatedAtAction(nameof(GetLoanById), new {id = loan.Id}, loan);
         }
 
 

@@ -25,6 +25,7 @@ namespace Banking_system.Controllers
         }
         // 1- Normal Customer allowed Transactions
 
+    
         [HttpGet("Deposit/{id:int}")]
         public async Task<IActionResult> Deposit(TransactionCreateDto trxDto)
         {
@@ -54,6 +55,7 @@ namespace Banking_system.Controllers
 
         }
 
+        
         [HttpPost("Withdraw")]
         public async Task<IActionResult> Withdraw(TransactionCreateDto trxDto)
         {

@@ -67,7 +67,7 @@ namespace Banking_system.Controllers
             var account = mapper.Map<Account>(acc);
             await unitOfWork.AccountsRepo.insertAsync(account);
 
-            return CreatedAtAction("GetAccountById", new {id = account.Id});
+            return CreatedAtAction("GetAccountById", new {id = account.Id}, account);
         }
 
         [Authorize(Roles ="admin")]
@@ -105,7 +105,7 @@ namespace Banking_system.Controllers
             account.accountStatus = (AccountStatus)Enum.Parse(typeof(AccountStatus), acc.accountStatus);
             await unitOfWork.Complete();
 
-            return CreatedAtAction(nameof(GetAccountById), new { id });
+            return Ok();
 
         }
 
@@ -127,8 +127,8 @@ namespace Banking_system.Controllers
 
             await unitOfWork.Complete();
 
-            return CreatedAtAction(nameof(GetAccountById), new { id });
-              
+            return Ok();
+
         }
 
         [Authorize(Roles = "admin")]
