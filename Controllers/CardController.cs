@@ -144,7 +144,7 @@ namespace Banking_system.Controllers
         {
             bool check = await AllowedTo(id);
 
-            if (!check) return Forbid();
+            if (!check) return Unauthorized();
 
 
             var card = await unitOfWork.CardsRepo.GetByIdAsync(id);
@@ -164,7 +164,7 @@ namespace Banking_system.Controllers
         {
             bool check = await AllowedTo(id);
 
-            if (!check) return Forbid();
+            if (!check) return Unauthorized();
 
             var card = await unitOfWork.CardsRepo.GetByIdAsync(id);
 
@@ -225,12 +225,12 @@ namespace Banking_system.Controllers
             return "4000-" + new Random().Next(1000, 9999) + "-" + new Random().Next(1000, 9999) + "-0001";
         }
 
-        [HttpGet("Get")]
-        [Authorize]
-        public IActionResult GetNothing()
-        {
-            Console.WriteLine("Im inside");
-            return Ok();
-        }
+      //[HttpGet("Get")]
+      //[Authorize]
+      //public IActionResult GetNothing()
+      //{
+      //    Console.WriteLine("Im inside");
+      //    return Ok();
+      //}
     }
 }
