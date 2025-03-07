@@ -25,7 +25,7 @@ namespace Banking_system.Controllers
             this.mapper = mapper;
         }
 
-        [HttpGet("admin/GetAllCards")]
+        [HttpGet("admin/GetAll")]
         [Authorize(Roles = "Admin")]
         public async Task<IActionResult> GetAllCards()
         {
@@ -41,7 +41,7 @@ namespace Banking_system.Controllers
 
 
 
-        [HttpGet("GetCardById/{id:int}")]
+        [HttpGet("GetById/{id:int}")]
         public async Task<IActionResult> GetCardById(int id)
         {
             bool check = await AllowedTo(id);
@@ -59,7 +59,7 @@ namespace Banking_system.Controllers
         }
 
         [Authorize(Roles ="Admin")]
-        [HttpPost("admin/CreateCard")]
+        [HttpPost("admin/Create")]
         public async Task<IActionResult> CreateCard(CardCreateDto card)
         {
             if(!ModelState.IsValid) return BadRequest(ModelState);
@@ -76,7 +76,7 @@ namespace Banking_system.Controllers
         }
 
         [Authorize(Roles = "admin")]
-        [HttpPut("admin/UpdateCard/{id:int}")]
+        [HttpPut("admin/Update/{id:int}")]
         public async Task<IActionResult> UpdateCard(int id, CardUpdateDto card) 
         {
             if (!ModelState.IsValid) return BadRequest(ModelState);
@@ -93,7 +93,7 @@ namespace Banking_system.Controllers
         }
 
         [Authorize(Roles = "admin")]
-        [HttpPut("admin/ChangeCardStattus/{id:int}")]
+        [HttpPut("admin/ChangeStatus/{id:int}")]
         public async Task<IActionResult> ChangeCardStatus(int id, [FromQuery]string Status)
         {
             var card = await unitOfWork.CardsRepo.GetByIdAsync(id);
@@ -119,7 +119,7 @@ namespace Banking_system.Controllers
         }
 
         [Authorize(Roles = "admin")]
-        [HttpPut("admin/ExpireCards/{id:int}")]
+        [HttpPut("admin/Expire/{id:int}")]
         public async Task<IActionResult> ExpireCards()
         {
             var cards = await unitOfWork.CardsRepo.GetAllAsync();
@@ -179,7 +179,7 @@ namespace Banking_system.Controllers
         }
 
 
-        [Authorize(Roles = "admin")]
+        [Authorize(Roles = "Admin")]
         [HttpDelete("admin/Delete/{id:int}")]
         public async Task<IActionResult> DeleteCard(int id)
         {

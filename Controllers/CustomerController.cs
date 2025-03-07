@@ -22,8 +22,8 @@ namespace Banking_system.Controllers
             this.mapper = mapper;
         }
 
-        [Authorize(Roles = "admin")]
-        [HttpGet("GetAllCustomers")]
+        [Authorize(Roles = "Admin")]
+        [HttpGet("GetAll")]
         public async Task<IActionResult> GetAllCustomers()
         {
             var custs = await unitOfWork.CustomersRepo.GetAllAsync();
@@ -39,7 +39,7 @@ namespace Banking_system.Controllers
         }
 
 
-        [HttpGet("GetCustomerById/{id:int}")]
+        [HttpGet("GetById/{id:int}")]
         public async Task<IActionResult> GetCustomerById([FromRoute] int id) 
         {
 
@@ -59,8 +59,8 @@ namespace Banking_system.Controllers
 
 
 
-        [Authorize(Roles = ("admin"))]
-        [HttpPost("AddNewCustomer")]
+        [Authorize(Roles = ("Admin"))]
+        [HttpPost("Add")]
         public async Task<IActionResult> AddNewCustomer([FromBody] CustomerCreateDto customer)
         {
             if(!ModelState.IsValid) return BadRequest(ModelState);
@@ -72,8 +72,8 @@ namespace Banking_system.Controllers
         }
 
 
-        [Authorize(Roles = ("admin"))]
-        [HttpPut("UpdateCustomer/{id:int}")]
+        [Authorize(Roles = ("Admin"))]
+        [HttpPut("Update/{id:int}")]
         public async Task<IActionResult> UpdateCustomer(int id, [FromBody] CustomerUpdateDto customer)
         {
             if (!ModelState.IsValid) return BadRequest(ModelState);
@@ -91,8 +91,8 @@ namespace Banking_system.Controllers
         }
 
 
-        [Authorize(Roles = "admin")]
-        [HttpDelete("DeleteCustomer/{id:int}")]
+        [Authorize(Roles = "Admin")]
+        [HttpDelete("Delete/{id:int}")]
         public async Task<IActionResult> DeleteCustomer(int id)
         {
             bool flag =  await unitOfWork.CustomersRepo.deleteAsync(id);

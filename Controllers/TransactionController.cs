@@ -23,12 +23,17 @@ namespace Banking_system.Controllers
             this.unitOfWork = unitOfWork;
             this.mapper = mapper;
         }
+
         // 1- Normal Customer allowed Transactions
 
     
         [HttpGet("Deposit/{id:int}")]
         public async Task<IActionResult> Deposit(TransactionCreateDto trxDto)
         {
+            if(!ModelState.IsValid) 
+                return BadRequest(ModelState);
+
+
             bool check = await AllowedTo((int)trxDto.ToAccountId);
             if (!check) return Forbid();
 
@@ -59,6 +64,9 @@ namespace Banking_system.Controllers
         [HttpPost("Withdraw")]
         public async Task<IActionResult> Withdraw(TransactionCreateDto trxDto)
         {
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
+
             bool check = await AllowedTo((int)trxDto.FromAccountId);
             if (!check) return Forbid();
 
@@ -90,6 +98,10 @@ namespace Banking_system.Controllers
         [HttpPost("Transfer")]
         public async Task<IActionResult> Transfer(TransactionCreateDto trx)
         {
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
+
+
             bool check = await AllowedTo((int)trx.FromAccountId);
             if (!check) return Forbid();
 

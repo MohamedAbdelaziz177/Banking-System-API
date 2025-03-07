@@ -25,7 +25,7 @@ namespace Banking_system.Controllers
         }
 
 
-        [Authorize(Roles = "admin")]
+        [Authorize(Roles = "Admin")]
         [HttpGet("GetAll")]
         public async Task<IActionResult> GetAllAccounts()
         {
@@ -41,7 +41,7 @@ namespace Banking_system.Controllers
         }
 
 
-        [HttpGet("GetAccountById/{id:int}")]
+        [HttpGet("GetById/{id:int}")]
         public async Task<IActionResult> GetAccountById([FromRoute] int id)
         {
             bool check = await AllowedTo(id);
@@ -58,8 +58,8 @@ namespace Banking_system.Controllers
             
         }
 
-        [Authorize(Roles ="admin")]
-        [HttpPost("CreateAccount")]
+        [Authorize(Roles ="Admin")]
+        [HttpPost("Create")]
         public async Task<IActionResult> CreateAccount([FromBody] AccountCreateDto acc)
         {
             if(!ModelState.IsValid) return BadRequest(ModelState);
@@ -70,8 +70,8 @@ namespace Banking_system.Controllers
             return CreatedAtAction("GetAccountById", new {id = account.Id}, account);
         }
 
-        [Authorize(Roles ="admin")]
-        [HttpPut("UpdateAccount/{id:int}")]
+        [Authorize(Roles ="Admin")]
+        [HttpPut("Update/{id:int}")]
         public async Task<IActionResult> UpdateAccount([FromRoute] int id, [FromBody] AccountUpdateDto acc)
         {
             if (!ModelState.IsValid) return BadRequest(ModelState);
@@ -89,7 +89,7 @@ namespace Banking_system.Controllers
         }
 
         
-        [HttpPut("ChangeAccountStatus/{id:int}")]
+        [HttpPut("ChangeStatus/{id:int}")]
         public async Task<IActionResult> ChangeAccountStatus([FromRoute] int id, [FromBody] ChangeAccStatusDto acc)
         {
             bool check = await AllowedTo(id);
@@ -110,7 +110,7 @@ namespace Banking_system.Controllers
         }
 
         
-        [HttpPut("ChangeAccountType/{id:int}")]
+        [HttpPut("ChangeType/{id:int}")]
         public async Task<IActionResult> ChangeAccountType([FromRoute] int id, [FromBody] ChangeAccTypeDto acc)
         {
             bool check = await AllowedTo(id);
@@ -131,7 +131,7 @@ namespace Banking_system.Controllers
 
         }
 
-        [Authorize(Roles = "admin")]
+        [Authorize(Roles = "Admin")]
         [HttpDelete("Delete/{id:int}")]
         public async Task<IActionResult> DeleteAccount([FromRoute] int id) 
         {

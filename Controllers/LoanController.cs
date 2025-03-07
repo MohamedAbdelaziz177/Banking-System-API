@@ -24,8 +24,8 @@ namespace Banking_system.Controllers
             this.mapper = mapper;
         }
 
-        [Authorize(Roles = "admin")]
-        [HttpGet("GetAllLoans")]
+        [Authorize(Roles = "Admin")]
+        [HttpGet("GetAll")]
         public async Task<IActionResult> GetAllLoans()
         {
             var loans = await unitOfWork.LoansRepo.GetAllAsync();
@@ -41,7 +41,7 @@ namespace Banking_system.Controllers
 
         }
 
-        [HttpGet("GelLoanById/{id:int}")]
+        [HttpGet("GetById/{id:int}")]
         public async  Task<IActionResult> GetLoanById(int id)
         {
             bool check = await AllowedTo(id);
@@ -57,8 +57,8 @@ namespace Banking_system.Controllers
             return Ok(loanDto);
         }
 
-        [Authorize(Roles = "admin")]
-        [HttpPost("CreateLoan")]
+        [Authorize(Roles = "Admin")]
+        [HttpPost("Create")]
         public async Task<IActionResult> CreateLoan(LoanCreateDto loanDto) 
         {
             if (!ModelState.IsValid) return BadRequest();
@@ -71,8 +71,8 @@ namespace Banking_system.Controllers
         }
 
 
-        [Authorize(Roles = "admin")]
-        [HttpPut("UpdateLoan/{id:int}")]
+        [Authorize(Roles = "Admin")]
+        [HttpPut("Update/{id:int}")]
         public async Task<IActionResult> UpdateLoan(int id, LoanUpdateDto loanDto)
         {
             if (!ModelState.IsValid) return BadRequest(ModelState);
@@ -89,8 +89,8 @@ namespace Banking_system.Controllers
             return Ok(existingLoan);
         }
 
-        [Authorize(Roles = "admin")]
-        [HttpDelete("DeleteLoan/{id:int}")]
+        [Authorize(Roles = "Admin")]
+        [HttpDelete("Delete/{id:int}")]
         public async Task<IActionResult> DeleteLoan(int id) 
         {
             bool flag = await unitOfWork.LoansRepo.deleteAsync(id);
@@ -101,7 +101,7 @@ namespace Banking_system.Controllers
         }
 
         
-        [HttpGet("GetLoanByCustomerId/{id:int}")]
+        [HttpGet("GetByCustomerId/{id:int}")]
         public async Task<IActionResult> GetLoanByCustomerId(int id) 
         {
            
@@ -115,7 +115,7 @@ namespace Banking_system.Controllers
         }
 
         [HttpGet("GetPaidLoans")]
-        [Authorize(Roles = "admin")]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> GetPaidLoans()
         {
             var allLoans = await unitOfWork.LoansRepo.GetAllAsync();
@@ -126,7 +126,7 @@ namespace Banking_system.Controllers
 
 
         [HttpGet("GetUnpaidLoans")]
-        [Authorize(Roles = "admin")]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> GetUnpaidLoans()
         {
             var allLoans = await unitOfWork.LoansRepo.GetAllAsync();

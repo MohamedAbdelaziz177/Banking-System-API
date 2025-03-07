@@ -18,11 +18,13 @@ namespace Banking_system.Controllers
         
         private readonly RoleManager<Role> roleManager;
         private readonly IMapper mapper;
+        private readonly UserManager<AppUser> userManager;
 
-        public RoleController(RoleManager<Role> roleManager, IMapper mapper)
+        public RoleController(RoleManager<Role> roleManager, IMapper mapper, UserManager<AppUser> userManager)
         {
             this.roleManager = roleManager;
             this.mapper = mapper;
+            this.userManager = userManager;
         }
 
         //[HttpGet("GetAllRoles")]
@@ -82,6 +84,23 @@ namespace Banking_system.Controllers
 
             return BadRequest(ModelState);
         
+        }
+
+        [HttpPost("AssignToUser")]
+        public async Task<IActionResult> AssignRoleToUser(RoleUserDto roleUserDto)
+        {
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
+
+            var user = await userManager.FindByNameAsync(roleUserDto.userName);
+
+            if (user == null) return BadRequest("User Not Found");
+
+            var res = await userManager.AddToRoleAsync(user, roleUserDto.Role);
+
+            if (res.Succeeded) return Ok("Role Assigned to user successfully");
+
+            return BadRequest("Failed to assign user, Pleaze try again");
         }
 
 
