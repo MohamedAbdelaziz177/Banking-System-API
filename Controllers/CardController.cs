@@ -59,7 +59,7 @@ namespace Banking_system.Controllers
         }
 
         [Authorize(Roles ="Admin")]
-        [HttpPost("admin/Create")]
+        [HttpPost("Create")]
         public async Task<IActionResult> CreateCard(CardCreateDto card)
         {
             if(!ModelState.IsValid) return BadRequest(ModelState);
@@ -76,7 +76,7 @@ namespace Banking_system.Controllers
         }
 
         [Authorize(Roles = "admin")]
-        [HttpPut("admin/Update/{id:int}")]
+        [HttpPut("Update/{id:int}")]
         public async Task<IActionResult> UpdateCard(int id, CardUpdateDto card) 
         {
             if (!ModelState.IsValid) return BadRequest(ModelState);
@@ -93,7 +93,7 @@ namespace Banking_system.Controllers
         }
 
         [Authorize(Roles = "admin")]
-        [HttpPut("admin/ChangeStatus/{id:int}")]
+        [HttpPut("ChangeStatus/{id:int}")]
         public async Task<IActionResult> ChangeCardStatus(int id, [FromQuery]string Status)
         {
             var card = await unitOfWork.CardsRepo.GetByIdAsync(id);
@@ -108,7 +108,7 @@ namespace Banking_system.Controllers
         }
 
         [Authorize(Roles = "admin")]
-        [HttpPut("admin/SetExpiryDate/{id:int}")]
+        [HttpPut("SetExpiryDate/{id:int}")]
         public async Task<IActionResult> SetExpiryDate(int id)
         {
             var card = await unitOfWork.CardsRepo.GetByIdAsync(id);
@@ -119,7 +119,7 @@ namespace Banking_system.Controllers
         }
 
         [Authorize(Roles = "admin")]
-        [HttpPut("admin/Expire/{id:int}")]
+        [HttpPut("Expire/{id:int}")]
         public async Task<IActionResult> ExpireCards()
         {
             var cards = await unitOfWork.CardsRepo.GetAllAsync();
@@ -180,7 +180,7 @@ namespace Banking_system.Controllers
 
 
         [Authorize(Roles = "Admin")]
-        [HttpDelete("admin/Delete/{id:int}")]
+        [HttpDelete("Delete/{id:int}")]
         public async Task<IActionResult> DeleteCard(int id)
         {
             bool flag = await unitOfWork.CardsRepo.deleteAsync(id);
