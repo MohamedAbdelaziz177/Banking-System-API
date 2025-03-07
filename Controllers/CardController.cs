@@ -156,7 +156,7 @@ namespace Banking_system.Controllers
             card.amount += amount;
             await unitOfWork.Complete();
 
-            return Ok();
+            return Ok(card.amount);
         }
 
         [HttpPut("Withdraw/{id:int}")]
@@ -174,7 +174,7 @@ namespace Banking_system.Controllers
             card.amount -= amount;
             await unitOfWork.Complete();
 
-            return Ok();
+            return Ok(card.amount);
             
         }
 
@@ -195,10 +195,19 @@ namespace Banking_system.Controllers
         private async Task<bool> AllowedTo(int cardId)
         {
             var UserID = int.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier));
+
+            
+
             var isAdmin = User.IsInRole("admin");
 
             var card = await unitOfWork.CardsRepo.GetByIdAsync(cardId);
+
+            if (card == null) return false;
+
             var CardOwner = await unitOfWork.CustomersRepo.GetByIdAsync(card.customerId);
+
+            if (CardOwner == null) return false;
+
             var CardUserId = CardOwner.UserId;
 
             var checkUserId = (CardUserId == UserID);
