@@ -25,7 +25,7 @@ namespace Banking_system.Controllers
             this.mapper = mapper;
         }
 
-        [HttpGet("admin/GetAll")]
+        [HttpGet("GetAll")]
         [Authorize(Roles = "Admin")]
         public async Task<IActionResult> GetAllCards()
         {
@@ -75,7 +75,7 @@ namespace Banking_system.Controllers
             return CreatedAtAction("GetCardById", new {id = mappedCard.Id}, mappedCard);
         }
 
-        [Authorize(Roles = "admin")]
+        [Authorize(Roles = "Admin")]
         [HttpPut("Update/{id:int}")]
         public async Task<IActionResult> UpdateCard(int id, CardUpdateDto card) 
         {
@@ -92,7 +92,7 @@ namespace Banking_system.Controllers
             return Ok(existingCard);
         }
 
-        [Authorize(Roles = "admin")]
+        [Authorize(Roles = "Admin")]
         [HttpPut("ChangeStatus/{id:int}")]
         public async Task<IActionResult> ChangeCardStatus(int id, [FromQuery]string Status)
         {
@@ -107,7 +107,7 @@ namespace Banking_system.Controllers
             return CreatedAtAction(nameof(GetCardById), new { id = id });
         }
 
-        [Authorize(Roles = "admin")]
+        [Authorize(Roles = "Admin")]
         [HttpPut("SetExpiryDate/{id:int}")]
         public async Task<IActionResult> SetExpiryDate(int id)
         {
@@ -118,7 +118,7 @@ namespace Banking_system.Controllers
             return CreatedAtAction(nameof(GetCardById), new{ id = id});
         }
 
-        [Authorize(Roles = "admin")]
+        [Authorize(Roles = "Admin")]
         [HttpPut("Expire/{id:int}")]
         public async Task<IActionResult> ExpireCards()
         {
@@ -140,6 +140,7 @@ namespace Banking_system.Controllers
 
 
         [HttpPut("Deposit/{id:int}")]
+        [Authorize]
         public async Task<IActionResult> Deposit(int id, [FromQuery]decimal amount)
         {
             bool check = await AllowedTo(id);
@@ -160,6 +161,7 @@ namespace Banking_system.Controllers
         }
 
         [HttpPut("Withdraw/{id:int}")]
+        [Authorize]
         public async Task<IActionResult> Withdraw(int id, [FromQuery] decimal amount)
         {
             bool check = await AllowedTo(id);
