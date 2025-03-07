@@ -39,7 +39,7 @@ namespace Banking_system.Controllers
         }
 
 
-        [HttpGet("GetCustomerById{id:int}")]
+        [HttpGet("GetCustomerById/{id:int}")]
         public async Task<IActionResult> GetCustomerById([FromRoute] int id) 
         {
 
@@ -73,7 +73,7 @@ namespace Banking_system.Controllers
 
 
         [Authorize(Roles = ("admin"))]
-        [HttpPut("UpdateCustomer{id:int}")]
+        [HttpPut("UpdateCustomer/{id:int}")]
         public async Task<IActionResult> UpdateCustomer(int id, [FromBody] CustomerUpdateDto customer)
         {
             if (!ModelState.IsValid) return BadRequest(ModelState);
@@ -92,7 +92,7 @@ namespace Banking_system.Controllers
 
 
         [Authorize(Roles = "admin")]
-        [HttpDelete("DeleteCustomer{id:int}")]
+        [HttpDelete("DeleteCustomer/{id:int}")]
         public async Task<IActionResult> DeleteCustomer(int id)
         {
             bool flag =  await unitOfWork.CustomersRepo.deleteAsync(id);

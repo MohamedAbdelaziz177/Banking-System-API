@@ -35,7 +35,11 @@ namespace Banking_system
                 AddEntityFrameworkStores<AppDbContext>();
               
 
-            builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+            builder.Services.AddAuthentication(options =>
+            {
+                options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+                options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+            })
             .AddJwtBearer(options =>
             {
                 options.SaveToken = true;
@@ -44,15 +48,15 @@ namespace Banking_system
                 options.TokenValidationParameters = new TokenValidationParameters()
                 {
                     ValidateIssuer = true,
-                    ValidateAudience = true,
+                    ValidateAudience = false,
                     ValidateLifetime = true,
                     ValidateIssuerSigningKey = true,
 
                     ValidIssuer = builder.Configuration["JWT:issuer"],
                     ValidAudience = builder.Configuration["JWT:audience"],
                     IssuerSigningKey = new SymmetricSecurityKey(
-                       Encoding.UTF8.GetBytes(builder.Configuration["Jwt:secret"]))
-                  //  RoleClaimType = "http://schemas.microsoft.com/ws/2008/06/identity/claims/role"
+                       Encoding.UTF8.GetBytes(builder.Configuration["Jwt:secret"])),
+                  
 
                 };
             }
@@ -63,7 +67,6 @@ namespace Banking_system
             builder.Services.AddAutoMapper(typeof(Program).Assembly);
 
 
-          
             var app = builder.Build();
 
           

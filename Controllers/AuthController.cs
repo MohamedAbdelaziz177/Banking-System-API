@@ -65,14 +65,14 @@ namespace Banking_system.Controllers
 
             if (appUser == null)
             {
-                return BadRequest();
+                return BadRequest("Email or password not valid");
             }
 
             bool found = await userManager.CheckPasswordAsync(appUser, user.password);
 
             if (!found) 
             {
-                return BadRequest();
+                return BadRequest("Email or password not valid");
             }
 
             var claims = new List<Claim>();
@@ -87,6 +87,7 @@ namespace Banking_system.Controllers
             foreach (var role in roles)
             {
                 claims.Add(new Claim(ClaimTypes.Role, role.ToString()));
+                Console.WriteLine(role);
             }
 
 
@@ -117,7 +118,7 @@ namespace Banking_system.Controllers
           
         }
 
-        [Authorize(Roles = "admin")]
+       // [Authorize(Roles = "admin")]
         [HttpPost("AddNewAdmin")]
         public async Task<IActionResult> AddAdmin(RegisterDto user)
         {

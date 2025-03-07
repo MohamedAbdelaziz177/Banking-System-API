@@ -21,9 +21,9 @@ namespace Banking_system.DTO_s
 
         [Compare("password")]
         [Required]
-        public string confirmPassword {  get; set; }
+        public string confirmPassword { get; set; }
 
-        
+
         public string Address { get; set; }
 
 

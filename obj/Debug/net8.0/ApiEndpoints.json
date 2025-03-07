@@ -307,6 +307,16 @@
   },
   {
     "ContainingType": "Banking_system.Controllers.CardController",
+    "Method": "GetNothing",
+    "RelativePath": "api/Card/Get",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "Banking_system.Controllers.CardController",
     "Method": "GetCardById",
     "RelativePath": "api/Card/GetCardById/{id}",
     "HttpMethod": "GET",
@@ -361,7 +371,7 @@
   {
     "ContainingType": "Banking_system.Controllers.CustomerController",
     "Method": "DeleteCustomer",
-    "RelativePath": "api/Customer/DeleteCustomer{id}",
+    "RelativePath": "api/Customer/DeleteCustomer/{id}",
     "HttpMethod": "DELETE",
     "IsController": true,
     "Order": 0,
@@ -387,7 +397,7 @@
   {
     "ContainingType": "Banking_system.Controllers.CustomerController",
     "Method": "GetCustomerById",
-    "RelativePath": "api/Customer/GetCustomerById{id}",
+    "RelativePath": "api/Customer/GetCustomerById/{id}",
     "HttpMethod": "GET",
     "IsController": true,
     "Order": 0,
@@ -403,7 +413,7 @@
   {
     "ContainingType": "Banking_system.Controllers.CustomerController",
     "Method": "UpdateCustomer",
-    "RelativePath": "api/Customer/UpdateCustomer{id}",
+    "RelativePath": "api/Customer/UpdateCustomer/{id}",
     "HttpMethod": "PUT",
     "IsController": true,
     "Order": 0,
@@ -731,26 +741,5 @@
       }
     ],
     "ReturnTypes": []
-  },
-  {
-    "ContainingType": "Banking_system.Controllers.WeatherForecastController",
-    "Method": "Get",
-    "RelativePath": "WeatherForecast",
-    "HttpMethod": "GET",
-    "IsController": true,
-    "Order": 0,
-    "Parameters": [],
-    "ReturnTypes": [
-      {
-        "Type": "System.Collections.Generic.IEnumerable\u00601[[Banking_system.WeatherForecast, Banking system, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-        "MediaTypes": [
-          "text/plain",
-          "application/json",
-          "text/json"
-        ],
-        "StatusCode": 200
-      }
-    ],
-    "EndpointName": "GetWeatherForecast"
   }
 ]

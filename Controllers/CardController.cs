@@ -26,7 +26,7 @@ namespace Banking_system.Controllers
         }
 
         [HttpGet("admin/GetAllCards")]
-        [Authorize(Roles = "admin")]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> GetAllCards()
         {
             var allCards = await unitOfWork.CardsRepo.GetAllAsync();
@@ -58,7 +58,7 @@ namespace Banking_system.Controllers
             return Ok(cardDto);
         }
 
-        [Authorize(Roles ="admin")]
+        [Authorize(Roles ="Admin")]
         [HttpPost("admin/CreateCard")]
         public async Task<IActionResult> CreateCard(CardCreateDto card)
         {
@@ -214,6 +214,14 @@ namespace Banking_system.Controllers
         {
             // Simple Random .. can work
             return "4000-" + new Random().Next(1000, 9999) + "-" + new Random().Next(1000, 9999) + "-0001";
+        }
+
+        [HttpGet("Get")]
+        [Authorize]
+        public IActionResult GetNothing()
+        {
+            Console.WriteLine("Im inside");
+            return Ok();
         }
     }
 }
