@@ -170,16 +170,6 @@
   },
   {
     "ContainingType": "Banking_system.Controllers.CardController",
-    "Method": "GetAllCards",
-    "RelativePath": "api/Card/admin/GetAll",
-    "HttpMethod": "GET",
-    "IsController": true,
-    "Order": 0,
-    "Parameters": [],
-    "ReturnTypes": []
-  },
-  {
-    "ContainingType": "Banking_system.Controllers.CardController",
     "Method": "ChangeCardStatus",
     "RelativePath": "api/Card/ChangeStatus/{id}",
     "HttpMethod": "PUT",
@@ -270,8 +260,8 @@
   },
   {
     "ContainingType": "Banking_system.Controllers.CardController",
-    "Method": "GetNothing",
-    "RelativePath": "api/Card/Get",
+    "Method": "GetAllCards",
+    "RelativePath": "api/Card/GetAll",
     "HttpMethod": "GET",
     "IsController": true,
     "Order": 0,

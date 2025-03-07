@@ -46,14 +46,14 @@ namespace Banking_system.Controllers
         {
             bool check = await AllowedTo(id);
 
-            if(!check) return Forbid();
+            if(!check) return Unauthorized();
 
 
-            var card = unitOfWork.CardsRepo.GetByIdAsync(id);
+            var card = await unitOfWork.CardsRepo.GetByIdAsync(id);
+
+            if (card == null) return BadRequest("This id doesn't exist");
 
             var cardDto = mapper.Map<CardReadDto>(card);
-
-            if (card == null) return NotFound("This id doesn't exist");
 
             return Ok(cardDto);
         }

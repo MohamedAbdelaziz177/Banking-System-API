@@ -46,11 +46,11 @@ namespace Banking_system.Controllers
         {
             bool check = await AllowedTo(id);
 
-            if (!check) return Forbid();
+            if (!check) return Unauthorized();
 
             var loan = await unitOfWork.LoansRepo.GetByIdAsync(id);
 
-            if(loan == null) return NotFound("id doesn't exist");
+            if(loan == null) return BadRequest("id doesn't exist");
 
             var loanDto = mapper.Map<LoanReadDto>(loan);
 
@@ -121,7 +121,14 @@ namespace Banking_system.Controllers
             var allLoans = await unitOfWork.LoansRepo.GetAllAsync();
             var filteredLoans = allLoans.Where(e => e.loanStatus == LoanStatus.paid);
 
-            return Ok(filteredLoans);
+            var loanDtos = new List<LoanReadDto>();
+
+            foreach(var loan in filteredLoans)
+            {
+                loanDtos.Add(mapper.Map<LoanReadDto>(loan));
+            }
+
+            return Ok(loanDtos);
         }
 
 
@@ -132,17 +139,31 @@ namespace Banking_system.Controllers
             var allLoans = await unitOfWork.LoansRepo.GetAllAsync();
             var filteredLoans = allLoans.Where(e => e.loanStatus == LoanStatus.active);
 
-            return Ok(filteredLoans);
+            var loanDtos = new List<LoanReadDto>();
+
+            foreach (var loan in filteredLoans)
+            {
+                loanDtos.Add(mapper.Map<LoanReadDto>(loan));
+            }
+
+            return Ok(loanDtos);
         }
 
         // Normal Functions serving the logic
         private async Task<bool> AllowedTo(int loanId)
         {
             var UserID = int.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier));
-            var isAdmin = User.IsInRole("admin");
+
+            var isAdmin = User.IsInRole("Admin");
 
             var loan = await unitOfWork.LoansRepo.GetByIdAsync(loanId);
+
+            if(loan == null) return false;
+
             var loanOwner = await unitOfWork.CustomersRepo.GetByIdAsync(loan.customerId);
+
+            if(loanOwner == null) return false;
+
             var loanOwnerId = loanOwner.UserId;
 
             var checkUserId = (loanOwnerId == UserID);

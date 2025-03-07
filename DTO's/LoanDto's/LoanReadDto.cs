@@ -7,7 +7,7 @@ namespace Banking_system.DTO_s.LoanDto_s
         public int Id { get; set; }
         public int CustomerId { get; set; }
 
-        public string CustomerName { get; set; } = string.Empty;
+     //   public string CustomerName { get; set; } = string.Empty;
 
         public decimal amount { get; set; }
 

@@ -4,6 +4,7 @@ using Banking_system.Model;
 using Banking_system.UnitOfWork;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using System.Security.Claims;
 
@@ -15,11 +16,13 @@ namespace Banking_system.Controllers
     {
         private readonly IUnitOfWork unitOfWork;
         private readonly IMapper mapper;
+        private readonly UserManager<AppUser> userManager;
 
-        public CustomerController(IUnitOfWork unitOfWork, IMapper mapper)
+        public CustomerController(IUnitOfWork unitOfWork, IMapper mapper, UserManager<AppUser> userManager)
         {
             this.unitOfWork = unitOfWork;
             this.mapper = mapper;
+            this.userManager = userManager;
         }
 
         [Authorize(Roles = "Admin")]
@@ -32,7 +35,18 @@ namespace Banking_system.Controllers
 
             foreach (var cust in custs)
             {
-                customersDto.Add(mapper.Map<CustomerReadDto>(cust));
+                var custDto = mapper.Map<CustomerReadDto>(cust);
+
+                var user = await userManager.FindByIdAsync(cust.UserId.ToString());
+
+                if (user == null) return BadRequest("User Not found");
+
+                custDto.email = user.Email;
+                custDto.address = user.Address;
+                custDto.Name = user.UserName;
+
+                 
+                customersDto.Add(custDto);
             }
 
             return Ok(customersDto);
@@ -50,9 +64,17 @@ namespace Banking_system.Controllers
 
             var cust = await unitOfWork.CustomersRepo.GetByIdAsync(id); 
 
-            if (cust == null) return NotFound("This id is not found");
+            if (cust == null) return BadRequest("This id is not found");
 
             var custDto = mapper.Map<CustomerReadDto>(cust);
+
+            var user = await userManager.FindByIdAsync(cust.UserId.ToString());
+
+            if (user == null) return BadRequest("User Not found");
+
+            custDto.email = user.Email;
+            custDto.address = user.Address;
+            custDto.Name = user.UserName;
 
             return Ok(custDto);
         }
@@ -65,22 +87,27 @@ namespace Banking_system.Controllers
         {
             if(!ModelState.IsValid) return BadRequest(ModelState);
 
+            
+
             Customer cust = mapper.Map<Customer>(customer);
+
             await unitOfWork.CustomersRepo.insertAsync(cust);
 
-            return CreatedAtAction(nameof(GetCustomerById), new { id = cust.Id }, cust);
+            return CreatedAtAction(nameof(GetCustomerById), new { id = cust.Id });
         }
 
 
         [Authorize(Roles = ("Admin"))]
         [HttpPut("Update/{id:int}")]
+
+        //Needs Modifying
         public async Task<IActionResult> UpdateCustomer(int id, [FromBody] CustomerUpdateDto customer)
         {
             if (!ModelState.IsValid) return BadRequest(ModelState);
 
             var exisitingCust = await unitOfWork.CustomersRepo.GetByIdAsync(id);
 
-            if (exisitingCust == null) return NotFound("This id doesn't exist");
+            if (exisitingCust == null) return BadRequest("This id doesn't exist");
 
             mapper.Map(customer, exisitingCust);
 
@@ -97,7 +124,7 @@ namespace Banking_system.Controllers
         {
             bool flag =  await unitOfWork.CustomersRepo.deleteAsync(id);
 
-            if (!flag) return NotFound("This id doesn't exist");
+            if (!flag) return BadRequest("This id doesn't exist");
 
             return NoContent();
 
@@ -111,6 +138,9 @@ namespace Banking_system.Controllers
             var isAdmin = User.IsInRole("admin");
 
             var customer = await unitOfWork.CustomersRepo.GetByIdAsync(customerId);
+
+            if (customer == null) return false;
+
             var checkUserId = (customer.UserId == UserID);
 
             if (!checkUserId && !isAdmin)
