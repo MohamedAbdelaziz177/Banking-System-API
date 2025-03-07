@@ -13,7 +13,7 @@ namespace Banking_system.Model
 
         public decimal amount { get; set; }
 
-        public LoanStatus loanStatus { get; set; }
+        public LoanStatus loanStatus { get; set; } = LoanStatus.active;
 
         public decimal InterestRate { get; set; }
         public DateTime StartDate { get; set; }

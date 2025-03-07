@@ -135,7 +135,7 @@ namespace Banking_system.Controllers
         private async Task<bool> AllowedTo(int  customerId)
         {
             var UserID = int.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier));
-            var isAdmin = User.IsInRole("admin");
+            var isAdmin = User.IsInRole("Admin");
 
             var customer = await unitOfWork.CustomersRepo.GetByIdAsync(customerId);
 

@@ -8,7 +8,7 @@ namespace Banking_system.DTO_s.LoanDto_s
     {
         public decimal amount { get; set; }
 
-        [CheckEnumValue(typeof(LoanStatus), ErrorMessage = "only active - paid - defaulted")]
+        [EnumDataType(typeof(LoanStatus), ErrorMessage = "only active - paid - defaulted")]
         public string loanStatus { get; set; }
 
         [Range(10, 50)]

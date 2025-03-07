@@ -66,8 +66,10 @@ namespace Banking_system.Controllers
             var loan = mapper.Map<Loan>(loanDto);
 
             await unitOfWork.LoansRepo.insertAsync(loan);
-            
-            return CreatedAtAction(nameof(GetLoanById), new {id = loan.Id}, loan);
+
+            var loanReadDto = mapper.Map<LoanReadDto>(loan);
+
+            return CreatedAtAction(nameof(GetLoanById), new {id = loan.Id}, loanReadDto);
         }
 
 
@@ -79,14 +81,14 @@ namespace Banking_system.Controllers
 
             var existingLoan = await unitOfWork.LoansRepo.GetByIdAsync(id);
 
-            if (existingLoan == null) return NotFound("this id doesn't exist");
+            if (existingLoan == null) return BadRequest("this id doesn't exist");
 
             mapper.Map(loanDto, existingLoan);
 
 
             await unitOfWork.LoansRepo.updateAsync(id, existingLoan);
 
-            return Ok(existingLoan);
+            return Ok(mapper.Map<LoanReadDto>(existingLoan));
         }
 
         [Authorize(Roles = "Admin")]
@@ -109,9 +111,14 @@ namespace Banking_system.Controllers
             var allLoans = await unitOfWork.LoansRepo.GetAllAsync();
             var filteredLoans = allLoans.Where(e => e.customerId == id);
 
-            // if(filteredLoans == null) return Ok("No loans taken by this customer");
+            var loanDtos = new List<LoanReadDto>();
 
-            return Ok(filteredLoans);
+            foreach (var loan in filteredLoans)
+            {
+                loanDtos.Add(mapper.Map<LoanReadDto>(loan));
+            }
+
+            return Ok(loanDtos);
         }
 
         [HttpGet("GetPaidLoans")]

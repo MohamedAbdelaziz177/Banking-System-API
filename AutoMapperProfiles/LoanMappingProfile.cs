@@ -17,6 +17,8 @@ namespace Banking_system.AutoMapperProfiles
                 opt => opt.MapFrom(src => Enum.Parse<LoanStatus>(src.loanStatus, true)))
                 .ReverseMap();
 
+            CreateMap<LoanCreateDto, Loan>().ReverseMap();
+
             CreateMap<LoanUpdateDto, Loan>()
                  .ForMember(dest => dest.loanStatus,
                 opt => opt.MapFrom(src => Enum.Parse<LoanStatus>(src.loanStatus, true)))

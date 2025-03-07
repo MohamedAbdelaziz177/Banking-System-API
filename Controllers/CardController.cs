@@ -200,7 +200,7 @@ namespace Banking_system.Controllers
 
             
 
-            var isAdmin = User.IsInRole("admin");
+            var isAdmin = User.IsInRole("Admin");
 
             var card = await unitOfWork.CardsRepo.GetByIdAsync(cardId);
 

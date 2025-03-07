@@ -10,6 +10,6 @@ namespace Banking_system.DTO_s.LoanDto_s
         [Range(10, 50)]
         public decimal InterestRate { get; set; }
 
-        public DateTime? EndDate { get; set; }
+        public DateTime? EndDate { get; set; } = DateTime.Now.AddYears(10);
     }
 }
