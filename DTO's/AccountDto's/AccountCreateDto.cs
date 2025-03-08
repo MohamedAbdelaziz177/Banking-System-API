@@ -10,7 +10,7 @@ namespace Banking_system.DTO_s.AccountDto_s
 
         public int CustomerId { get; set; }
 
-        [CheckEnumValue(typeof(AccountType), ErrorMessage = "only savings - checking - business")]
+        [EnumDataType(typeof(AccountType), ErrorMessage = "only savings - checking - business")]
         public string AccountType { get; set; }
 
        // public string accountStatus { get; set; }

@@ -94,7 +94,7 @@ namespace Banking_system.Controllers
         {
             bool check = await AllowedTo(id);
 
-            if (!check) return Forbid();
+            if (!check) return Unauthorized();
 
             if (!ModelState.IsValid) return BadRequest(ModelState);
 
@@ -105,7 +105,7 @@ namespace Banking_system.Controllers
             account.accountStatus = (AccountStatus)Enum.Parse(typeof(AccountStatus), acc.accountStatus);
             await unitOfWork.Complete();
 
-            return Ok();
+            return Ok(account);
 
         }
 
@@ -146,10 +146,17 @@ namespace Banking_system.Controllers
         private async Task<bool> AllowedTo(int accId)
         {
             var UserID = int.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier));
-            var isAdmin = User.IsInRole("admin");
+
+            var isAdmin = User.IsInRole("Admin");
 
             var acc = await unitOfWork.AccountsRepo.GetByIdAsync(accId);
+
+            if (acc == null) return false;
+
             var AccOwner = await unitOfWork.CustomersRepo.GetByIdAsync(acc.customerId);
+
+            if(AccOwner == null) return false;
+
             var AccUserId = AccOwner.UserId;
 
             var checkUserId = (AccUserId == UserID);
