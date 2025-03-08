@@ -28,6 +28,8 @@ namespace Banking_system.Controllers
 
     
         [HttpPost("Deposit")]
+       // [Authorize]
+
         public async Task<IActionResult> Deposit(TransactionCreateDto trxDto)
         {
             if(!ModelState.IsValid) 
@@ -43,16 +45,16 @@ namespace Banking_system.Controllers
             {
                 await unitOfWork.AccountsRepo.Deposit((int)trxDto.ToAccountId, trxDto.amount);
 
-                Console.WriteLine("-----valid");
+               // Console.WriteLine("-----valid");
 
                 Transaction trxx = mapper.Map<Transaction>(trxDto);
 
-                Console.WriteLine("-----valid");
+               // Console.WriteLine("-----valid");
 
 
                await unitOfWork.TransactionsRepo.insertAsync(trxx);
 
-                Console.WriteLine("-----valid");
+              //  Console.WriteLine("-----valid");
 
 
                 await transaction.CommitAsync();
@@ -74,20 +76,24 @@ namespace Banking_system.Controllers
 
         
         [HttpPost("Withdraw")]
+        [Authorize]
+
         public async Task<IActionResult> Withdraw(TransactionCreateDto trxDto)
         {
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
 
+            Console.WriteLine(trxDto.FromAccountId + "assssAS");
             bool check = await AllowedTo((int)trxDto.FromAccountId);
-            if (!check) return Forbid();
+
+            if (!check) return Unauthorized();
 
             using var transaction = unitOfWork.BeginTransaction();
             try
             {
                 bool f = await unitOfWork.AccountsRepo.Withdraw((int)trxDto.FromAccountId, trxDto.amount);
 
-                if(!f) return BadRequest();
+                if(!f) return BadRequest("Ur total balance is less than the requested amount");
 
 
                 Transaction trxx = mapper.Map<Transaction>(trxDto);
@@ -99,15 +105,16 @@ namespace Banking_system.Controllers
                 return Ok(trxDto);
 
             }
-            catch {
+            catch(Exception ex)
+            {
                 transaction.Rollback();
                 return BadRequest();
-
             }
 
         }
 
         [HttpPost("Transfer")]
+        [Authorize]
         public async Task<IActionResult> Transfer(TransactionCreateDto trx)
         {
             if (!ModelState.IsValid)
@@ -240,7 +247,8 @@ namespace Banking_system.Controllers
         private async Task<bool> AllowedTo(int id)
         {
             var UserID = int.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier));
-            var isAdmin = User.IsInRole("admin");
+
+            var isAdmin = User.IsInRole("Admin");
 
             var acc = await unitOfWork.AccountsRepo.GetByIdAsync(id);
             var AccOwner = await unitOfWork.CustomersRepo.GetByIdAsync(acc.customerId);

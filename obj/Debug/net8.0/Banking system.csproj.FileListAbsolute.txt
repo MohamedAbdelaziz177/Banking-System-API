@@ -5,6 +5,8 @@ F:\Banking system\bin\Debug\net8.0\Banking system.deps.json
 F:\Banking system\bin\Debug\net8.0\Banking system.runtimeconfig.json
 F:\Banking system\bin\Debug\net8.0\Banking system.dll
 F:\Banking system\bin\Debug\net8.0\Banking system.pdb
+F:\Banking system\bin\Debug\net8.0\AutoMapper.dll
+F:\Banking system\bin\Debug\net8.0\AutoMapper.Extensions.Microsoft.DependencyInjection.dll
 F:\Banking system\bin\Debug\net8.0\Azure.Core.dll
 F:\Banking system\bin\Debug\net8.0\Azure.Identity.dll
 F:\Banking system\bin\Debug\net8.0\Humanizer.dll
@@ -133,6 +135,7 @@ F:\Banking system\obj\Debug\net8.0\Banking system.AssemblyInfo.cs
 F:\Banking system\obj\Debug\net8.0\Banking system.csproj.CoreCompileInputs.cache
 F:\Banking system\obj\Debug\net8.0\Banking system.MvcApplicationPartsAssemblyInfo.cs
 F:\Banking system\obj\Debug\net8.0\Banking system.MvcApplicationPartsAssemblyInfo.cache
+F:\Banking system\obj\Debug\net8.0\Banking system.sourcelink.json
 F:\Banking system\obj\Debug\net8.0\staticwebassets.build.json
 F:\Banking system\obj\Debug\net8.0\staticwebassets.development.json
 F:\Banking system\obj\Debug\net8.0\staticwebassets\msbuild.Banking system.Microsoft.AspNetCore.StaticWebAssets.props
@@ -147,6 +150,3 @@ F:\Banking system\obj\Debug\net8.0\refint\Banking system.dll
 F:\Banking system\obj\Debug\net8.0\Banking system.pdb
 F:\Banking system\obj\Debug\net8.0\Banking system.genruntimeconfig.cache
 F:\Banking system\obj\Debug\net8.0\ref\Banking system.dll
-F:\Banking system\bin\Debug\net8.0\AutoMapper.dll
-F:\Banking system\bin\Debug\net8.0\AutoMapper.Extensions.Microsoft.DependencyInjection.dll
-F:\Banking system\obj\Debug\net8.0\Banking system.sourcelink.json
