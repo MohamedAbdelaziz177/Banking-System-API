@@ -1,6 +1,7 @@
 ﻿using Banking_system.DTO_s.Custom_Validations;
 using Banking_system.Enums.Loan;
 using Banking_system.Enums.Transactions;
+using System.ComponentModel.DataAnnotations;
 
 namespace Banking_system.DTO_s.TransactionDto_s
 {
@@ -9,7 +10,7 @@ namespace Banking_system.DTO_s.TransactionDto_s
         public int? FromAccountId { get; set; }
         public int? ToAccountId { get; set; }
 
-        [CheckEnumValue(typeof(TransactionType), ErrorMessage = "only deposit - withdrawal - transfer - payment")]
+        [EnumDataType(typeof(TransactionType), ErrorMessage = "only deposit - withdrawal - transfer - payment")]
         public string TrxType { get; set; }
         public decimal amount { get; set; }
     }

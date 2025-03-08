@@ -27,7 +27,7 @@ namespace Banking_system.Controllers
         // 1- Normal Customer allowed Transactions
 
     
-        [HttpGet("Deposit/{id:int}")]
+        [HttpPost("Deposit")]
         public async Task<IActionResult> Deposit(TransactionCreateDto trxDto)
         {
             if(!ModelState.IsValid) 
@@ -35,7 +35,7 @@ namespace Banking_system.Controllers
 
 
             bool check = await AllowedTo((int)trxDto.ToAccountId);
-            if (!check) return Forbid();
+            if (!check) return Unauthorized();
 
             var transaction = unitOfWork.BeginTransaction();
             try
@@ -56,7 +56,6 @@ namespace Banking_system.Controllers
             }
 
             return Ok();
-            return BadRequest();
 
         }
 

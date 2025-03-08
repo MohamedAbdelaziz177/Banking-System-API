@@ -640,19 +640,14 @@
   {
     "ContainingType": "Banking_system.Controllers.TransactionController",
     "Method": "Deposit",
-    "RelativePath": "api/Transaction/Deposit/{id}",
-    "HttpMethod": "GET",
+    "RelativePath": "api/Transaction/Deposit",
+    "HttpMethod": "POST",
     "IsController": true,
     "Order": 0,
     "Parameters": [
       {
         "Name": "trxDto",
         "Type": "Banking_system.DTO_s.TransactionDto_s.TransactionCreateDto",
-        "IsRequired": true
-      },
-      {
-        "Name": "id",
-        "Type": "",
         "IsRequired": true
       }
     ],
