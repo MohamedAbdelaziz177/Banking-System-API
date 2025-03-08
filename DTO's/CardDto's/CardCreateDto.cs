@@ -1,6 +1,6 @@
-﻿using Banking_system.DTO_s.Custom_Validations;
-using Banking_system.Enums.Card;
+﻿using Banking_system.Enums.Card;
 using Banking_system.Enums.Loan;
+using System.ComponentModel.DataAnnotations;
 
 namespace Banking_system.DTO_s.CardDto_s
 {
@@ -8,7 +8,7 @@ namespace Banking_system.DTO_s.CardDto_s
     {
         // public string cardNumber { get; set; } = string.Empty;
 
-        [CheckEnumValue(typeof(CardType), ErrorMessage = "only debit - credit - prepaid")]
+        [EnumDataType(typeof(CardType), ErrorMessage = "only debit - credit - prepaid")]
         public string cardType { get; set; }
        // public string cardStatus { get; set; }
         public int CustomerId { get; set; }

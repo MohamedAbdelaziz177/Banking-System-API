@@ -137,54 +137,6 @@
     "ReturnTypes": []
   },
   {
-    "ContainingType": "Banking_system.Controllers.AuthController",
-    "Method": "AddAdmin",
-    "RelativePath": "api/Auth/AddNewAdmin",
-    "HttpMethod": "POST",
-    "IsController": true,
-    "Order": 0,
-    "Parameters": [
-      {
-        "Name": "user",
-        "Type": "Banking_system.DTO_s.RegisterDto",
-        "IsRequired": true
-      }
-    ],
-    "ReturnTypes": []
-  },
-  {
-    "ContainingType": "Banking_system.Controllers.AuthController",
-    "Method": "LogIn",
-    "RelativePath": "api/Auth/Login",
-    "HttpMethod": "POST",
-    "IsController": true,
-    "Order": 0,
-    "Parameters": [
-      {
-        "Name": "user",
-        "Type": "Banking_system.DTO_s.LoginDto",
-        "IsRequired": true
-      }
-    ],
-    "ReturnTypes": []
-  },
-  {
-    "ContainingType": "Banking_system.Controllers.AuthController",
-    "Method": "Register",
-    "RelativePath": "api/Auth/Register",
-    "HttpMethod": "POST",
-    "IsController": true,
-    "Order": 0,
-    "Parameters": [
-      {
-        "Name": "user",
-        "Type": "Banking_system.DTO_s.RegisterDto",
-        "IsRequired": true
-      }
-    ],
-    "ReturnTypes": []
-  },
-  {
     "ContainingType": "Banking_system.Controllers.CardController",
     "Method": "ChangeCardStatus",
     "RelativePath": "api/Card/ChangeStatus/{id}",

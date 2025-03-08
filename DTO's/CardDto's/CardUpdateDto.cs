@@ -1,6 +1,6 @@
-﻿using Banking_system.DTO_s.Custom_Validations;
-using Banking_system.Enums.Card;
+﻿using Banking_system.Enums.Card;
 using Banking_system.Enums.Loan;
+using System.ComponentModel.DataAnnotations;
 
 namespace Banking_system.DTO_s.CardDto_s
 {
@@ -10,7 +10,7 @@ namespace Banking_system.DTO_s.CardDto_s
         //public string cardType { get; set; }
 
       
-        [CheckEnumValue(typeof(CardStatus), ErrorMessage = "only active - blocked - expired")]
+        [EnumDataType(typeof(CardStatus), ErrorMessage = "only active - blocked - expired")]
         public string cardStatus { get; set; }
         //public int CustomerId { get; set; }
         public decimal amount { get; set; }

@@ -1,5 +1,4 @@
-﻿using Banking_system.DTO_s.Custom_Validations;
-using Banking_system.Enums.Account;
+﻿using Banking_system.Enums.Account;
 using System.ComponentModel.DataAnnotations;
 
 namespace Banking_system.DTO_s.AccountDto_s

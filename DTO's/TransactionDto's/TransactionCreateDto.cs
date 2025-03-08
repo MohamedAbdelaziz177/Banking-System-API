@@ -1,5 +1,4 @@
-﻿using Banking_system.DTO_s.Custom_Validations;
-using Banking_system.Enums.Loan;
+﻿using Banking_system.Enums.Loan;
 using Banking_system.Enums.Transactions;
 using System.ComponentModel.DataAnnotations;
 

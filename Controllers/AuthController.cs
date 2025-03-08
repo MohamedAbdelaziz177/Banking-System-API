@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using Banking_system.DTO_s;
+using Banking_system.DTO_s.AuthDto;
 using Banking_system.Model;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
@@ -18,6 +19,7 @@ namespace Banking_system.Controllers
     [ApiController]
     public class AuthController : ControllerBase
     {
+        /*
         
         private readonly UserManager<AppUser> userManager;
         private readonly IConfiguration config;
@@ -147,6 +149,6 @@ namespace Banking_system.Controllers
 
         // Forget Password
 
-    
+    */
     }
 }
