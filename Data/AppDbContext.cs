@@ -40,16 +40,20 @@ namespace Banking_system.Data
                    .HasForeignKey(e => e.customerId)
                    .OnDelete(DeleteBehavior.Restrict);
 
-           
+
 
             builder.Entity<Transaction>()
                 .HasOne(e => e.FromAccount)
-                .WithMany();
+                .WithOne()
+                .OnDelete(DeleteBehavior.Restrict);
+            ;
 
 
             builder.Entity<Transaction>()
                 .HasOne(e => e.ToAccount)
-                .WithMany();
+                .WithOne() 
+                .OnDelete(DeleteBehavior.Restrict);
+                
 
 
             builder.Entity<Role>()

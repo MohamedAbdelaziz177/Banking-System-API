@@ -35,6 +35,7 @@ namespace Banking_system.Controllers
 
 
             bool check = await AllowedTo((int)trxDto.ToAccountId);
+
             if (!check) return Unauthorized();
 
             var transaction = unitOfWork.BeginTransaction();
@@ -42,9 +43,17 @@ namespace Banking_system.Controllers
             {
                 await unitOfWork.AccountsRepo.Deposit((int)trxDto.ToAccountId, trxDto.amount);
 
+                Console.WriteLine("-----valid");
+
                 Transaction trxx = mapper.Map<Transaction>(trxDto);
 
-                await unitOfWork.TransactionsRepo.insertAsync(trxx);
+                Console.WriteLine("-----valid");
+
+
+               await unitOfWork.TransactionsRepo.insertAsync(trxx);
+
+                Console.WriteLine("-----valid");
+
 
                 await transaction.CommitAsync();
 
@@ -53,6 +62,10 @@ namespace Banking_system.Controllers
             catch (Exception ex) 
             {
                 transaction.Rollback();
+
+                Console.WriteLine(ex.Message.ToString());
+
+                return BadRequest();
             }
 
             return Ok();
