@@ -85,6 +85,22 @@
   },
   {
     "ContainingType": "Banking_system.Controllers.AccountController",
+    "Method": "GetAccountsByCustomerId",
+    "RelativePath": "api/Account/GetByCustomerId",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "Custid",
+        "Type": "System.Int32",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "Banking_system.Controllers.AccountController",
     "Method": "GetAccountById",
     "RelativePath": "api/Account/GetById/{id}",
     "HttpMethod": "GET",

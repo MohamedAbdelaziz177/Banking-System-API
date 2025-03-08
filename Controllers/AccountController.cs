@@ -58,6 +58,25 @@ namespace Banking_system.Controllers
             
         }
 
+        [HttpGet("GetByCustomerId")]
+        public async Task<IActionResult> GetAccountsByCustomerId([FromQuery] int Custid)
+        {
+
+            bool checkCust = await CheckRegisteredCustomer(Custid);
+
+            if (!checkCust) return Unauthorized();
+
+            var accounts = await unitOfWork.AccountsRepo.GetAccountsByCustId(Custid);
+
+            var accountsDto = new List<AccountReadDto>();
+
+            foreach(var account in accounts)
+                accountsDto.Add(mapper.Map<AccountReadDto>(account));
+
+            return Ok(accountsDto);
+            
+        }
+
         [Authorize(Roles ="Admin")]
         [HttpPost("Create")]
         public async Task<IActionResult> CreateAccount([FromBody] AccountCreateDto acc)
@@ -166,6 +185,25 @@ namespace Banking_system.Controllers
 
 
             return true;
+        }
+
+        private async Task<bool> CheckRegisteredCustomer(int custId)
+        {
+
+           if (User != null && User.IsInRole("Admin")) return true;
+
+
+           var customer = await unitOfWork.CustomersRepo.GetByIdAsync(custId);
+
+           if (customer == null) return false;
+
+            var stringId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+
+            if (stringId == null) return false;
+
+            var userId = int.Parse(stringId);
+
+            return customer.UserId == userId;
         }
 
     }

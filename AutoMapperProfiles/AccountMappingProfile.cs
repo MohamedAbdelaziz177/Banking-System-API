@@ -13,8 +13,10 @@ namespace Banking_system.AutoMapperProfiles
             CreateMap<AccountCreateDto, Account>()
                 .ForMember(dest => dest.accountType,
                 option => option.MapFrom(src => Enum.Parse<AccountType>(src.AccountType, true)))
-
+                .ForMember(dest => dest.accountStatus,
+                option => option.MapFrom(src => Enum.Parse<AccountStatus>(src.AccountStatus, true)))
                 .ReverseMap();
+
 
             CreateMap<AccountReadDto, Account>()
                 .ForMember(dest => dest.accountType,
