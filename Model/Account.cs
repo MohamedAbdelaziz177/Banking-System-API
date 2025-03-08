@@ -16,7 +16,7 @@ namespace Banking_system.Model
 
         // public Customer customer { get; set; }
 
-     //   public ICollection<Transaction> transactions { get; set; } = new List<Transaction>();
+      //  public ICollection<Transaction> transactions { get; set; } = new List<Transaction>();
 
         
     }

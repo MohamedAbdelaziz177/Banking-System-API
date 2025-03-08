@@ -42,17 +42,17 @@ namespace Banking_system.Data
 
 
 
-            builder.Entity<Transaction>()
-                .HasOne(e => e.FromAccount)
-                .WithOne()
-                .OnDelete(DeleteBehavior.Restrict);
-            ;
-
-
-            builder.Entity<Transaction>()
-                .HasOne(e => e.ToAccount)
-                .WithOne() 
-                .OnDelete(DeleteBehavior.Restrict);
+          //builder.Entity<Transaction>()
+          //    .HasOne(e => e.FromAccount)
+          //    .WithMany()
+          //    .OnDelete(DeleteBehavior.Restrict);
+          //;
+          //
+          //
+          //builder.Entity<Transaction>()
+          //    .HasOne(e => e.ToAccount)
+          //    .WithMany() 
+          //    .OnDelete(DeleteBehavior.Restrict);
                 
 
 

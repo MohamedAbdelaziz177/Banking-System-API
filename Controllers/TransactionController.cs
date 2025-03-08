@@ -28,7 +28,7 @@ namespace Banking_system.Controllers
 
     
         [HttpPost("Deposit")]
-       // [Authorize]
+        [Authorize]
 
         public async Task<IActionResult> Deposit(TransactionCreateDto trxDto)
         {
@@ -107,6 +107,7 @@ namespace Banking_system.Controllers
             }
             catch(Exception ex)
             {
+                Console.WriteLine(ex.Message);
                 transaction.Rollback();
                 return BadRequest();
             }
@@ -154,6 +155,7 @@ namespace Banking_system.Controllers
        
 
         [HttpGet("GetTransactionById/{id:int}")]
+        [Authorize]
         public async Task<IActionResult> GetTransactionById(int id)
         {
            
@@ -169,6 +171,7 @@ namespace Banking_system.Controllers
 
 
         [HttpGet("GetTransactionsByAccId/{id:int}")]
+        [Authorize]
         public async Task<IActionResult> GetTransactionsByAccId(int id)
         {
             bool check = await AllowedTo(id);
@@ -184,6 +187,7 @@ namespace Banking_system.Controllers
         }
 
         [HttpGet("GetTransactionsFromAccByAccId/{id:int}")]
+        [Authorize]
         public async Task<IActionResult> GetTransactionsFromAccByAccId(int id)
         {
             bool check = await AllowedTo(id);
@@ -199,6 +203,8 @@ namespace Banking_system.Controllers
         }
 
         [HttpGet("GetTransactionsToAccByAccId/{id:int}")]
+        [Authorize]
+
         public async Task<IActionResult> GetTransactionsToAccByAccId(int id)
         {
             bool check = await AllowedTo(id);
@@ -217,7 +223,7 @@ namespace Banking_system.Controllers
 
         // 2- only Admin allowed Transactions
 
-        [Authorize(Roles = "admin")]
+        [Authorize(Roles = "Admin")]
         [HttpGet("GetAllTransactions")]
         public async Task<IActionResult> GetAllTransactions()
         {
@@ -231,7 +237,7 @@ namespace Banking_system.Controllers
             return Ok(TransDto);
         }
 
-        [Authorize(Roles = "admin")]
+        [Authorize(Roles = "Admin")]
         [HttpDelete("DeleteTransaction")]
         public async Task<IActionResult> DeleteTransaction(int id) 
         {
