@@ -183,7 +183,7 @@ namespace Banking_system.Controllers
             foreach (var trx in allTrx)
                 TransDto.Add(mapper.Map<TransactionReadDto>(trx));
 
-            return Ok(allTrx);
+            return Ok(TransDto);
         }
 
         [HttpGet("GetTransactionsFromAccByAccId/{id:int}")]
@@ -199,7 +199,7 @@ namespace Banking_system.Controllers
             foreach (var trx in allTrx)
                 TransDto.Add(mapper.Map<TransactionReadDto>(trx));
 
-            return Ok(allTrx);
+            return Ok(TransDto);
         }
 
         [HttpGet("GetTransactionsToAccByAccId/{id:int}")]
@@ -216,7 +216,7 @@ namespace Banking_system.Controllers
             foreach (var trx in allTrx)
                 TransDto.Add(mapper.Map<TransactionReadDto>(trx));
 
-            return Ok(allTrx);
+            return Ok(TransDto);
         }
 
 
