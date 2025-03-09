@@ -16,15 +16,18 @@ namespace Banking_system.UnitOfWork
         public ILoanRepo LoansRepo { get; private set; }
         public ITransactionRepo TransactionsRepo { get; private set; }
 
+        public IRefreshTokenRepo RefreshTokensRepo { get; private set; }
+
         public UnitOfWorkk(AppDbContext con)
         {
             this.con = con;
 
             CustomersRepo = new CustomerRepo(con);
-            CardsRepo = new CardRepo(con);//new GenericRepo<Card>(con);
+            CardsRepo = new CardRepo(con);  //new GenericRepo<Card>(con);
             AccountsRepo = new AccountRepo(con);
             LoansRepo = new LoanRepo(con);
             TransactionsRepo = new TransactionRepo(con);
+            RefreshTokensRepo = new RefreshTokenRepo(con);
 
         }
        

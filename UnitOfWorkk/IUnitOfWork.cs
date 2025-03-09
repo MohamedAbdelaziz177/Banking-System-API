@@ -14,6 +14,10 @@ namespace Banking_system.UnitOfWork
 
         public ITransactionRepo TransactionsRepo { get; }
 
+        public IRefreshTokenRepo RefreshTokensRepo { get; }
+
+        
+
         public IDbContextTransaction BeginTransaction();
 
 
