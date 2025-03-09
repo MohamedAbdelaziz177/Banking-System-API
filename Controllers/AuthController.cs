@@ -2,6 +2,7 @@
 using Banking_system.DTO_s;
 using Banking_system.DTO_s.AuthDto;
 using Banking_system.Model;
+using Banking_system.Services.AuthService_d;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
@@ -19,18 +20,124 @@ namespace Banking_system.Controllers
     [ApiController]
     public class AuthController : ControllerBase
     {
+
+        private readonly IAuthService authService;
+
+        public AuthController(IAuthService authService)
+        {
+            this.authService = authService;
+        }
+
+        [HttpPost("Register")]
+        public async Task<IActionResult> Register(RegisterDto registerDto)
+        {
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
+
+            AuthResponseDto authDto = await authService.RegisterAsync(registerDto);
+
+            if (!authDto.IsAuthenticated)
+                return BadRequest(authDto.Message);
+
+
+
+            Response.Cookies.Append("refreshToken", authDto.RefreshToken, new CookieOptions()
+            {
+                HttpOnly = true,
+                Expires = DateTimeOffset.UtcNow.AddDays(15),
+            });
+
+
+
+            return Ok(authDto);
+
+        }
+
+        [HttpPost("Login")]
+        public async Task<IActionResult> Login(LoginDto loginDto)
+        {
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
+
+
+            AuthResponseDto authDto = await authService.LoginAsync(loginDto);
+
+            if (!authDto.IsAuthenticated)
+                return BadRequest(authDto.Message);
+
+            Response.Cookies.Append("refreshToken", authDto.RefreshToken, new CookieOptions()
+            {
+                HttpOnly = true,
+                Expires = DateTimeOffset.UtcNow.AddDays(15),
+            });
+
+            return Ok(authDto);
+        }
+
+
+        [HttpGet("RefreshToken")]
+        [Authorize]
+        public async Task<IActionResult> RefreshToken()
+        {
+            var refToken = Request.Cookies["refreshToken"];
+
+            Console.WriteLine(refToken);
+
+            if (refToken == null || refToken == string.Empty) return BadRequest("No Refresh Token");
+
+
+            var userId = int.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier));
+
+
+            TokenResponseDto tokens = await authService.RefreshTokenAsync(refToken, userId);
+
+
+
+            if (!tokens.Successed) return BadRequest("Refresh Token Failed");
+
+
+            Response.Cookies.Append("refreshToken", tokens.RefreshToken, new CookieOptions()
+            {
+                HttpOnly = true,
+                Expires = DateTimeOffset.UtcNow.AddDays(15),
+            });
+
+
+
+            return Ok(tokens);
+
+        }
+
+        [Authorize]
+        [HttpGet("RequestConfirmation")]
+        public async Task<IActionResult> RequestEmailConfirmation()
+        {
+            var email = User.FindFirstValue(ClaimTypes.Email);
+
+            if (email == null) return BadRequest("Email is not valid");
+
+            bool succ = await authService.SendConfirmationCode(email);
+
+            if (!succ) return BadRequest("Try Again");
+
+            return Ok();
+        }
+
+
+        [HttpPost("ConfirmEmail")]
+        public async Task<IActionResult> ConfirmEmail(ConfirmEmailDto confirmEmailDto)
+        {
+            bool verified = await authService.ConfirmEmailAsync(confirmEmailDto.Email, confirmEmailDto.Code);
+
+            if (!verified) return BadRequest("Email is not verified");
+
+            return Ok("Email Verified");
+        }
+
+
         /*
         
-        private readonly UserManager<AppUser> userManager;
-        private readonly IConfiguration config;
-        private readonly IMapper mapper;
-
-        public AuthController(UserManager<AppUser> userManager, IConfiguration config, IMapper mapper)
-        {
-            this.userManager = userManager;
-            this.config = config;
-            this.mapper = mapper;
-        }
+        
 
         [HttpPost("Register")]
         public async Task<IActionResult> Register(RegisterDto user)
