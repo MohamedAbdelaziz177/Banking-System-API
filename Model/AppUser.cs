@@ -9,5 +9,6 @@ namespace Banking_system.Model
         public string LastName { get; set; }
         public string Address { get; set; }
 
+        public List<RefreshToken> RefreshTokens { get; set; } = new List<RefreshToken>();
     }
 }

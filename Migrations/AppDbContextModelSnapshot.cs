@@ -217,6 +217,37 @@ namespace Banking_system.Migrations
                     b.ToTable("Loans");
                 });
 
+            modelBuilder.Entity("Banking_system.Model.RefreshToken", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<int>("AppUserId")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime>("ExpiryDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Token")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("isRevoked")
+                        .HasColumnType("bit");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("AppUserId");
+
+                    b.ToTable("RefreshTokens");
+                });
+
             modelBuilder.Entity("Banking_system.Model.Role", b =>
                 {
                     b.Property<int>("Id")
@@ -437,6 +468,17 @@ namespace Banking_system.Migrations
                         .IsRequired();
                 });
 
+            modelBuilder.Entity("Banking_system.Model.RefreshToken", b =>
+                {
+                    b.HasOne("Banking_system.Model.AppUser", "AppUser")
+                        .WithMany("RefreshTokens")
+                        .HasForeignKey("AppUserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("AppUser");
+                });
+
             modelBuilder.Entity("Banking_system.Model.Transaction", b =>
                 {
                     b.HasOne("Banking_system.Model.Account", "FromAccount")
@@ -501,6 +543,11 @@ namespace Banking_system.Migrations
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+                });
+
+            modelBuilder.Entity("Banking_system.Model.AppUser", b =>
+                {
+                    b.Navigation("RefreshTokens");
                 });
 
             modelBuilder.Entity("Banking_system.Model.Customer", b =>

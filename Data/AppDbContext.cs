@@ -12,6 +12,8 @@ namespace Banking_system.Data
         DbSet<Loan> Loans { get; set; }
         DbSet<Transaction> Transactions { get; set; }
 
+        DbSet<RefreshToken> RefreshTokens { get; set; }
+
         public AppDbContext(DbContextOptions options) : base(options)
         {
 
