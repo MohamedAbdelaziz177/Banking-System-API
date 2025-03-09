@@ -9,7 +9,7 @@ namespace Banking_system.Services.AuthService_d
 
         Task<AuthResponseDto> LoginAsync(LoginDto loginDto);
 
-        Task<TokenResponseDto> RefreshTokenAsync(string refreshToken, string userId);
+        Task<TokenResponseDto> RefreshTokenAsync(string refreshToken, int userId);
 
         Task<bool> ConfirmEmailAsync(string email, string code);
 

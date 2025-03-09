@@ -10,7 +10,7 @@ namespace Banking_system.Model
 
         public int AppUserID { get; set; }
 
-        [ForeignKey("AppUserId")]
+        [ForeignKey("AppUserID")]
         public AppUser AppUser { get; set; }
         public string Token { get; set; }
         public bool isRevoked { get; set; }

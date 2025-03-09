@@ -21,19 +21,19 @@ namespace Banking_system.Services.AuthService_d
           private readonly IUnitOfWork unitOfWork;
      
 
-        public AuthService(UserManager<AppUser> userManager,
-                             IConfiguration configuration,
-                             IMailService mailService,
-                             IUnitOfWork unitOfWork)
-        {
-              this.userManager = userManager;
-              this.configuration = configuration;
-              this.mailService = mailService;
-              this.unitOfWork = unitOfWork;
-            
-        }
-
-          // 1 - Register And Login
+          public AuthService(UserManager<AppUser> userManager,
+                               IConfiguration configuration,
+                               IMailService mailService,
+                               IUnitOfWork unitOfWork)
+          {
+                this.userManager = userManager;
+                this.configuration = configuration;
+                this.mailService = mailService;
+                this.unitOfWork = unitOfWork;
+              
+          }
+          
+            // 1 - Register And Login
           public async Task<AuthResponseDto> RegisterAsync(RegisterDto registerDto)
           {
               var checkExistedUserWithEmail = await userManager.FindByEmailAsync(registerDto.Email);
@@ -66,7 +66,7 @@ namespace Banking_system.Services.AuthService_d
 
 
 
-              await userManager.AddToRoleAsync(appUser, "USER");
+              await userManager.AddToRoleAsync(appUser, "User");
 
               TokenResponseDto tokens = await GenerateTokensAsync(appUser.Id);
 
@@ -89,7 +89,7 @@ namespace Banking_system.Services.AuthService_d
               return authDto;
 
           }
-
+          
           public async Task<AuthResponseDto> LoginAsync(LoginDto loginDto)
           {
               var isExistedUserWithEmail = await userManager.FindByEmailAsync(loginDto.Email);
@@ -103,12 +103,7 @@ namespace Banking_system.Services.AuthService_d
               if (!isPasswordMatchingWithEmail)
                   return new AuthResponseDto { Message = "Invalid Email or Password" };
 
-              bool Has2FA = await userManager.GetTwoFactorEnabledAsync(isExistedUserWithEmail);
-
-              if (Has2FA)
-                  return new AuthResponseDto { Message = "You Need To Login Using 2FA", Is2FaRequired = true };
-
-
+         
 
 
               TokenResponseDto tokens = await GenerateTokensAsync(isExistedUserWithEmail.Id);
@@ -131,10 +126,10 @@ namespace Banking_system.Services.AuthService_d
               return authDto;
 
           }
-
-
-        // 4 - Tokens Generation   
-       public async Task<TokenResponseDto> GenerateTokensAsync(int userId)
+          
+          
+           // 4 - Tokens Generation   
+          public async Task<TokenResponseDto> GenerateTokensAsync(int userId)
        {
            Console.WriteLine(userId + "haa");
        
@@ -149,8 +144,8 @@ namespace Banking_system.Services.AuthService_d
            };
            return tokenResponse;
        }
-       
-       private async Task<string> GenerateAccessTokenAsync(int userId)
+          
+          private async Task<string> GenerateAccessTokenAsync(int userId)
        {
             AppUser appUser = await userManager.FindByIdAsync(userId.ToString());
 
@@ -187,8 +182,8 @@ namespace Banking_system.Services.AuthService_d
            return new JwtSecurityTokenHandler().WriteToken(token);
        
        }
-       
-       private async Task<RefreshToken> GenerateRefreshTokenAsync(int userId)
+          
+          private async Task<RefreshToken> GenerateRefreshTokenAsync(int userId)
        {
            RefreshToken refreshToken = new RefreshToken();
        
@@ -200,46 +195,116 @@ namespace Banking_system.Services.AuthService_d
        
            refreshToken.Token = Guid.NewGuid().ToString() + "_" + Guid.NewGuid().ToString();
        
-           await refreshTokenRepo.insertAsync(refreshToken);
+           await unitOfWork.RefreshTokensRepo.insertAsync(refreshToken);
            
            return refreshToken;
        }
-       
-       public async Task<TokenResponseDto> RefreshTokenAsync(string refreshToken, int userId)
+          
+          public async Task<TokenResponseDto> RefreshTokenAsync(string refreshToken, int userId)
         {
 
-            
+            var refToken = await
+                unitOfWork.RefreshTokensRepo.GetValidRefreshTokenAsync(refreshToken, userId);
 
-            if (refTok == null)
+            if (refToken == null)
                 return new TokenResponseDto
                 {
                     Successed = false
                 };
 
-            if (refTok.ExpiryDate > DateTime.Now.AddDays(1))
+            if (refToken.ExpiryDate > DateTime.Now.AddDays(1))
             {
-                var accessTok = await GenerateAccessTokenAsync(refTok.AppUserId);
-                refTok.ExpiryDate = DateTime.Now.AddDays(15);
+                var accessTok = await GenerateAccessTokenAsync(refToken.AppUserID);
+                refToken.ExpiryDate = DateTime.Now.AddDays(15);
 
                 return new TokenResponseDto
                 {
                     AccessToken = accessTok,
-                    RefreshToken = refTok.Token
+                    RefreshToken = refToken.Token
                 };
             }
 
-            refTok.isRevoked = true;
+            refToken.isRevoked = true;
 
-            await appDbContext.SaveChangesAsync();
+            await unitOfWork.Complete();
 
-            return await GenerateTokensAsync(refTok.AppUserId);
+            return await GenerateTokensAsync(refToken.AppUserID);
 
         }
 
 
-      
+          // 2 - Email Confirmation
+          
+          public async Task<bool> SendConfirmationCode(string email)
+        {
+            var user = await userManager.FindByEmailAsync(email);
+
+            if (user == null) return false;
+
+            var ConfirmationCode = await userManager.GenerateEmailConfirmationTokenAsync(user);
+
+            bool sent = await mailService
+                .SendMailAsync(email, "Email Verfication", $"<h2>{ConfirmationCode}</h2>");
+
+            return sent;
+
+
+        }
+          
+          public async Task<bool> ConfirmEmailAsync(string email, string code)
+        {
+            var user = await userManager.FindByEmailAsync(email);
+
+            if (user == null || code == null) return false;
+
+            var res = await userManager.ConfirmEmailAsync(user, code);
+
+            if (res.Succeeded) return true;
+
+            return false;
+
+        }
+          
+          private async Task<bool> IsEmailConfirmed(string email)
+        {
+            var user = await userManager.FindByEmailAsync(email);
+
+            if (user == null) return false;
+
+            bool isConfirmed = await userManager.IsEmailConfirmedAsync(user);
+
+            return isConfirmed;
+        }
+          
+          
+          // 3 - Forget And Reset Password
+          public async Task<bool> ForgetPasswordAsync(string email)
+        {
+            var user = await userManager.FindByEmailAsync(email);
+
+            if (user == null) return false;
+
+            var token = await userManager.GeneratePasswordResetTokenAsync(user);
+
+            bool check = await mailService.SendMailAsync(email, "Reset Password Token", token);
+
+            return check;
+        }
+          
+          
+          // - Needs to be Refactored -_-
+          public async Task<bool> ResetPasswordAsync(ResetPasswordDto resetPasswordDto)
+        {
+            var user = await userManager.FindByEmailAsync(resetPasswordDto.email);
+
+            if (user == null) return false;
+
+            var res = await userManager.ResetPasswordAsync(user, resetPasswordDto.token,
+                                                                 resetPasswordDto.Password);
+
+            return res.Succeeded;
+        }
 
        
-
     }
 }
