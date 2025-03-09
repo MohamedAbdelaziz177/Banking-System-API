@@ -8,6 +8,8 @@ namespace Banking_system.Model
         [Key]
         public int Id { get; set; }
 
+        public int AppUserID { get; set; }
+
         [ForeignKey("AppUserId")]
         public AppUser AppUser { get; set; }
         public string Token { get; set; }
