@@ -2,6 +2,7 @@
 using Banking_system.DTO_s.AuthDto;
 using Banking_system.Model;
 using Banking_system.Repositories.IRepositories;
+using Banking_system.UnitOfWork;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
@@ -17,18 +18,18 @@ namespace Banking_system.Services.AuthService_d
           private readonly UserManager<AppUser> userManager;
           private readonly IConfiguration configuration;
           private readonly IMailService mailService;
-          private readonly IRefreshTokenRepo refreshTokenRepo;
+          private readonly IUnitOfWork unitOfWork;
      
 
         public AuthService(UserManager<AppUser> userManager,
                              IConfiguration configuration,
                              IMailService mailService,
-                             IRefreshTokenRepo refreshTokenRepo)
-          {
+                             IUnitOfWork unitOfWork)
+        {
               this.userManager = userManager;
               this.configuration = configuration;
               this.mailService = mailService;
-            this.refreshTokenRepo = refreshTokenRepo;
+              this.unitOfWork = unitOfWork;
             
         }
 
@@ -151,10 +152,9 @@ namespace Banking_system.Services.AuthService_d
        
        private async Task<string> GenerateAccessTokenAsync(int userId)
        {
-           AppUser appUser = await appDbContext.Users.FirstOrDefaultAsync(e => e.Id == userId);
-       
-       
-       
+            AppUser appUser = await userManager.FindByIdAsync(userId.ToString());
+
+            
        
            var claims = new List<Claim>();
        
@@ -200,20 +200,15 @@ namespace Banking_system.Services.AuthService_d
        
            refreshToken.Token = Guid.NewGuid().ToString() + "_" + Guid.NewGuid().ToString();
        
-           await appDbContext.RefreshTokens.AddAsync(refreshToken);
-           await appDbContext.SaveChangesAsync();
+           await refreshTokenRepo.insertAsync(refreshToken);
+           
            return refreshToken;
        }
        
-       public async Task<TokenResponseDto> RefreshTokenAsync(string refreshToken, string userId)
+       public async Task<TokenResponseDto> RefreshTokenAsync(string refreshToken, int userId)
         {
 
-            var refTok = await appDbContext.RefreshTokens
-                                           .Include(rt => rt.appUser)
-                                           .FirstOrDefaultAsync(x => x.Token == refreshToken
-                                                                     && x.ExpiryDate > DateTime.Now
-                                                                     && !x.isRevoked
-                                                                     && x.AppUserId == userId);
+            
 
             if (refTok == null)
                 return new TokenResponseDto
