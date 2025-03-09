@@ -225,7 +225,7 @@ namespace Banking_system.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<int>("AppUserId")
+                    b.Property<int>("AppUserID")
                         .HasColumnType("int");
 
                     b.Property<DateTime>("CreatedAt")
@@ -243,7 +243,7 @@ namespace Banking_system.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("AppUserId");
+                    b.HasIndex("AppUserID");
 
                     b.ToTable("RefreshTokens");
                 });
@@ -472,7 +472,7 @@ namespace Banking_system.Migrations
                 {
                     b.HasOne("Banking_system.Model.AppUser", "AppUser")
                         .WithMany("RefreshTokens")
-                        .HasForeignKey("AppUserId")
+                        .HasForeignKey("AppUserID")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
