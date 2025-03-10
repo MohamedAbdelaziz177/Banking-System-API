@@ -2,6 +2,7 @@
 using Banking_system.AutoMapperProfiles;
 using Banking_system.Data;
 using Banking_system.Model;
+using Banking_system.Services.AuthService_d;
 using Banking_system.UnitOfWork;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
@@ -63,6 +64,8 @@ namespace Banking_system
                 );
 
             builder.Services.AddScoped<IUnitOfWork, UnitOfWorkk>();
+            builder.Services.AddScoped<IMailService, MailService>();
+            builder.Services.AddScoped<IAuthService, AuthService>();
 
             builder.Services.AddAutoMapper(typeof(Program).Assembly);
 
