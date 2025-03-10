@@ -7,7 +7,8 @@ namespace Banking_system.Model
         public string FirstName { get; set; }
 
         public string LastName { get; set; }
-       // public string Address { get; set; }
+
+        public string Address { get; set; } = "Egypt";
 
         public List<RefreshToken> RefreshTokens { get; set; } = new List<RefreshToken>();
     }
