@@ -135,98 +135,31 @@ namespace Banking_system.Controllers
         }
 
 
+        [HttpGet("ForgetPassword")]
+        public async Task<IActionResult> ForgetPassword([FromQuery] string email)
+        {
+            bool succ = await authService.ForgetPasswordAsync(email);
+
+            if (!succ) return BadRequest("Something Went Wrong");
+
+            return Ok();
+        }
+
+        [HttpPost("ResetPassword")]
+        public async Task<IActionResult> ResetPassword(ResetPasswordDto resetPasswordDto)
+        {
+            if (!ModelState.IsValid) return BadRequest(ModelState);
+
+            bool succ = await authService.ResetPasswordAsync(resetPasswordDto);
+
+            if (!succ) return BadRequest("Password not reset, Something went wrong");
+
+            return Ok("Password Reset Successfully");
+        }
+
+
         /*
-        
-        
-
-        [HttpPost("Register")]
-        public async Task<IActionResult> Register(RegisterDto user)
-        {
-            if (ModelState.IsValid) 
-            {
-                AppUser AppUser = mapper.Map<AppUser>(user);
-
-                IdentityResult res = await userManager.CreateAsync(AppUser, user.password);
-
-                if (res.Succeeded) 
-                {
-                    var resII = await userManager.AddToRoleAsync(AppUser, "user");
-
-                    if (resII.Succeeded)
-                    return Ok(res);
-                }
-
-            }
-
-            return BadRequest(ModelState);
-        }
-
-
-        [HttpPost("Login")]
-        public async Task<IActionResult> LogIn(LoginDto user)
-        {
-            if (!ModelState.IsValid) 
-            {
-                return BadRequest();
-            }
-
-            AppUser appUser = await userManager.FindByNameAsync(user.userName);
-
-            if (appUser == null)
-            {
-                return BadRequest("Email or password not valid");
-            }
-
-            bool found = await userManager.CheckPasswordAsync(appUser, user.password);
-
-            if (!found) 
-            {
-                return BadRequest("Email or password not valid");
-            }
-
-            var claims = new List<Claim>();
-
-            claims.Add(new Claim(ClaimTypes.Name, appUser.UserName));
-            claims.Add(new Claim(ClaimTypes.NameIdentifier, appUser.Id.ToString()));
-            claims.Add(new Claim(ClaimTypes.Email, appUser.Email));
-            claims.Add(new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()));
-
-            var roles = await userManager.GetRolesAsync(appUser);
-
-            foreach (var role in roles)
-            {
-                claims.Add(new Claim(ClaimTypes.Role, role.ToString()));
-                Console.WriteLine(role);
-            }
-
-
-            SecurityKey securityKey =
-                new SymmetricSecurityKey(Encoding.UTF8.GetBytes(config["JWT:secret"]));
-            var signingCred = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256);
-
-            JwtSecurityToken token = new JwtSecurityToken(
-
-                issuer: config["JWT:issuer"],
-                audience: config["JWT:audience"],
-                claims: claims,
-                expires: DateTime.Now.AddHours(1),
-                signingCredentials: signingCred
-
-            );
-
-            JwtSecurityTokenHandler handler = new JwtSecurityTokenHandler();
-            string tokenCreated = handler.WriteToken(token);
-
-            return Ok(new
-            {
-                token = tokenCreated,
-                expr = DateTime.Now.AddHours(1)
-            });
-
-
-          
-        }
-
+    
         [Authorize(Roles = "admin")]
         [HttpPost("AddNewAdmin")]
         public async Task<IActionResult> AddAdmin(RegisterDto user)
@@ -249,13 +182,7 @@ namespace Banking_system.Controllers
             return BadRequest(ModelState);
         }
 
-
-        // RefreshToken
-
-        // Reset Password
-
-        // Forget Password
-
     */
+
     }
 }
