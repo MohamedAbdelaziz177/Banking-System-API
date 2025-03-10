@@ -191,7 +191,7 @@ namespace Banking_system.Services.AuthService_d
            refreshToken.isRevoked = false;
        
            refreshToken.ExpiryDate = DateTime.Now.AddDays(30);
-           refreshToken.AppUser = await userManager.FindByIdAsync(userId.ToString());
+            refreshToken.AppUserID = userId;
        
            refreshToken.Token = Guid.NewGuid().ToString() + "_" + Guid.NewGuid().ToString();
        
@@ -201,36 +201,36 @@ namespace Banking_system.Services.AuthService_d
        }
           
           public async Task<TokenResponseDto> RefreshTokenAsync(string refreshToken, int userId)
-        {
+          {
 
-            var refToken = await
-                unitOfWork.RefreshTokensRepo.GetValidRefreshTokenAsync(refreshToken, userId);
+               var refToken = await
+                   unitOfWork.RefreshTokensRepo.GetValidRefreshTokenAsync(refreshToken, userId);
+               
+               if (refToken == null)
+                   return new TokenResponseDto
+                   {
+                       Successed = false
+                   };
+               
+               if (refToken.ExpiryDate > DateTime.Now.AddDays(1))
+               {
+                   var accessTok = await GenerateAccessTokenAsync(refToken.AppUserID);
+                   refToken.ExpiryDate = DateTime.Now.AddDays(15);
+               
+                   return new TokenResponseDto
+                   {
+                       AccessToken = accessTok,
+                       RefreshToken = refToken.Token
+                   };
+               }
+               
+               refToken.isRevoked = true;
+               
+               await unitOfWork.Complete();
+               
+               return await GenerateTokensAsync(refToken.AppUserID);
 
-            if (refToken == null)
-                return new TokenResponseDto
-                {
-                    Successed = false
-                };
-
-            if (refToken.ExpiryDate > DateTime.Now.AddDays(1))
-            {
-                var accessTok = await GenerateAccessTokenAsync(refToken.AppUserID);
-                refToken.ExpiryDate = DateTime.Now.AddDays(15);
-
-                return new TokenResponseDto
-                {
-                    AccessToken = accessTok,
-                    RefreshToken = refToken.Token
-                };
-            }
-
-            refToken.isRevoked = true;
-
-            await unitOfWork.Complete();
-
-            return await GenerateTokensAsync(refToken.AppUserID);
-
-        }
+          }
 
 
           // 2 - Email Confirmation
