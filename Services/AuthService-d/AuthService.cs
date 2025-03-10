@@ -146,42 +146,42 @@ namespace Banking_system.Services.AuthService_d
        }
           
           private async Task<string> GenerateAccessTokenAsync(int userId)
-       {
-            AppUser appUser = await userManager.FindByIdAsync(userId.ToString());
+          {
 
-            
+
+               AppUser appUser = await userManager.FindByIdAsync(userId.ToString());
+               
+               var claims = new List<Claim>();
+               
+               claims.Add(new Claim(ClaimTypes.Name, appUser.UserName));
+               claims.Add(new Claim(ClaimTypes.NameIdentifier, appUser.Id.ToString()));
+               claims.Add(new Claim(ClaimTypes.Email, appUser.Email));
+               claims.Add(new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()));
+               
+               var roles = await userManager.GetRolesAsync(appUser);
+               
+               foreach (var role in roles)
+               {
+                   claims.Add(new Claim(ClaimTypes.Role, role.ToString()));
+               }
+               
+               
+               
+               SecurityKey secKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(configuration["JWT:SecretKey"]));
+               SigningCredentials signingCredentials = new SigningCredentials(secKey, SecurityAlgorithms.HmacSha256);
+               
+               
+               JwtSecurityToken token = new JwtSecurityToken(
+                   issuer: configuration["JWT:Issuer"],
+                   audience: configuration["JWT:Audience"],
+                   claims: claims,
+                   expires: DateTime.Now.AddHours(double.Parse(configuration["JWT:ExpiryDuration"])),
+                   signingCredentials: signingCredentials
+               );
+               
+               return new JwtSecurityTokenHandler().WriteToken(token);
        
-           var claims = new List<Claim>();
-       
-           claims.Add(new Claim(ClaimTypes.Name, appUser.UserName));
-           claims.Add(new Claim(ClaimTypes.NameIdentifier, appUser.Id.ToString()));
-           claims.Add(new Claim(ClaimTypes.Email, appUser.Email));
-           claims.Add(new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()));
-       
-           var roles = await userManager.GetRolesAsync(appUser);
-       
-           foreach (var role in roles)
-           {
-               claims.Add(new Claim(ClaimTypes.Role, role.ToString()));
-           }
-       
-       
-       
-           SecurityKey secKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(configuration["JWT:SecretKey"]));
-           SigningCredentials signingCredentials = new SigningCredentials(secKey, SecurityAlgorithms.HmacSha256);
-       
-       
-           JwtSecurityToken token = new JwtSecurityToken(
-               issuer: configuration["JWT:Issuer"],
-               audience: configuration["JWT:Audience"],
-               claims: claims,
-               expires: DateTime.Now.AddHours(double.Parse(configuration["JWT:ExpiryDuration"])),
-               signingCredentials: signingCredentials
-           );
-       
-           return new JwtSecurityTokenHandler().WriteToken(token);
-       
-       }
+          }
           
           private async Task<RefreshToken> GenerateRefreshTokenAsync(int userId)
        {

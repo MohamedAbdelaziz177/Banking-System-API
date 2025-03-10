@@ -32,8 +32,13 @@ namespace Banking_system
     options.UseSqlServer(builder.Configuration.GetConnectionString("cs")));
 
 
-            builder.Services.AddIdentity<AppUser, Role>().
-                AddEntityFrameworkStores<AppDbContext>();
+            builder.Services.AddIdentity<AppUser, Role>(options =>
+            {
+                options.Tokens.EmailConfirmationTokenProvider = TokenOptions.DefaultEmailProvider;
+                options.Tokens.PasswordResetTokenProvider = TokenOptions.DefaultEmailProvider;
+            }).
+                AddEntityFrameworkStores<AppDbContext>().
+                AddDefaultTokenProviders();
               
 
             builder.Services.AddAuthentication(options =>
@@ -53,10 +58,11 @@ namespace Banking_system
                     ValidateLifetime = true,
                     ValidateIssuerSigningKey = true,
 
-                    ValidIssuer = builder.Configuration["JWT:issuer"],
-                    ValidAudience = builder.Configuration["JWT:audience"],
+                    ValidIssuer = builder.Configuration["JWT:Issuer"],
+                    ValidAudience = builder.Configuration["JWT:Audience"],
                     IssuerSigningKey = new SymmetricSecurityKey(
-                       Encoding.UTF8.GetBytes(builder.Configuration["Jwt:secret"])),
+                       Encoding.UTF8.GetBytes(builder.Configuration["Jwt:SecretKey"]))
+                    
                   
 
                 };
