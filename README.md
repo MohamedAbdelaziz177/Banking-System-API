@@ -45,11 +45,11 @@ This is a **Banking System API** built with **.NET 8**, following best practices
 ### Installation
 1. Clone the repository:
    ```sh
-   git clone https://github.com/MohamedAbdelaziz177/banking-system.git
+   git clone https://github.com/MohamedAbdelaziz177/Banking-System-API.git
    ```
 2. Navigate to the project directory:
    ```sh
-   cd banking-system
+   cd Banking system
    ```
 3. Set up the database:
    ```sh
