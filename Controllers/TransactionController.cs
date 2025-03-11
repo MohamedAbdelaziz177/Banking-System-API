@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using Banking_system.DTO_s.TransactionDto_s;
 using Banking_system.Model;
+using Banking_system.Services.AuthService_d;
 using Banking_system.UnitOfWork;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
@@ -17,11 +18,15 @@ namespace Banking_system.Controllers
     {
         private readonly IUnitOfWork unitOfWork;
         private readonly IMapper mapper;
+        private readonly IMailService mailService;
 
-        public TransactionController(IUnitOfWork unitOfWork, IMapper mapper)
+        public TransactionController(IUnitOfWork unitOfWork,
+                                     IMapper mapper,
+                                     IMailService mailService)
         {
             this.unitOfWork = unitOfWork;
             this.mapper = mapper;
+            this.mailService = mailService;
         }
 
         // 1- Normal Customer allowed Transactions
@@ -52,7 +57,13 @@ namespace Banking_system.Controllers
                // Console.WriteLine("-----valid");
 
 
-               await unitOfWork.TransactionsRepo.insertAsync(trxx);
+                await unitOfWork.TransactionsRepo.insertAsync(trxx);
+
+
+                await mailService.SendMailAsync(User.FindFirstValue(ClaimTypes.Email),
+                                          "Deposit Assurance",
+                                          $"<h2>You deposited {trxDto.amount} to ur account</h2>"
+                                          );
 
               //  Console.WriteLine("-----valid");
 
@@ -100,6 +111,11 @@ namespace Banking_system.Controllers
 
                 await unitOfWork.TransactionsRepo.insertAsync(trxx);
 
+                await mailService.SendMailAsync(User.FindFirstValue(ClaimTypes.Email),
+                                          "Withdrawal Assurance",
+                                          $"<h2>You withdrawed {trxDto.amount} from ur account</h2>"
+                                          );
+
                 await transaction.CommitAsync();
 
                 return Ok(trxDto);
@@ -123,7 +139,7 @@ namespace Banking_system.Controllers
 
 
             bool check = await AllowedTo((int)trx.FromAccountId);
-            if (!check) return Forbid();
+            if (!check) return Unauthorized();
 
             using var transaction = unitOfWork.BeginTransaction();
             try
@@ -140,6 +156,10 @@ namespace Banking_system.Controllers
                 Transaction trxx = mapper.Map<Transaction>(trx);
                 await unitOfWork.TransactionsRepo.insertAsync(trxx);
 
+                await mailService.SendMailAsync(User.FindFirstValue(ClaimTypes.Email),
+                                          "Transfer Assurance",
+                                          $"<h2>You transfered {trx.amount} to account {trx.ToAccountId}</h2>"
+                                          );
 
                 transaction.Commit();
 

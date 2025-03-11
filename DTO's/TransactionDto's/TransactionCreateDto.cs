@@ -1,4 +1,5 @@
-﻿using Banking_system.Enums.Loan;
+﻿using Banking_system.DTO_s.CustomValidations;
+using Banking_system.Enums.Loan;
 using Banking_system.Enums.Transactions;
 using System.ComponentModel.DataAnnotations;
 
@@ -12,5 +13,8 @@ namespace Banking_system.DTO_s.TransactionDto_s
         [EnumDataType(typeof(TransactionType), ErrorMessage = "only deposit - withdrawal - transfer - payment")]
         public string TrxType { get; set; }
         public decimal amount { get; set; }
+
+        [TransactionValidation]
+        public object TrxValidatorTrigger { get; set; } = new() { };
     }
 }

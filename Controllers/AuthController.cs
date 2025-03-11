@@ -158,7 +158,7 @@ namespace Banking_system.Controllers
         }
 
 
-        /*
+       /*
     
         [Authorize(Roles = "admin")]
         [HttpPost("AddNewAdmin")]
@@ -182,7 +182,7 @@ namespace Banking_system.Controllers
             return BadRequest(ModelState);
         }
 
-    */
+         */
 
     }
 }
