@@ -10,13 +10,13 @@ namespace Banking_system.Repositories.MRepositories
     {
         public RefreshTokenRepo(AppDbContext con) : base(con) { }
 
-        public async Task<RefreshToken?> GetValidRefreshTokenAsync(string refreshToken, int userId)
+        public async Task<RefreshToken?> GetValidRefreshTokenAsync(string refreshToken)
         {
-            var refTok = await dbset.Include(rt => rt.AppUser)
+            var refTok = await dbset
                               .FirstOrDefaultAsync(x => x.Token == refreshToken
                                                                      && x.ExpiryDate > DateTime.Now
                                                                      && !x.isRevoked
-                                                                     && x.AppUserID == userId);
+                                                                     );
 
             return refTok;
         }

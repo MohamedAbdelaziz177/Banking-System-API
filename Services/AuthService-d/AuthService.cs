@@ -200,11 +200,11 @@ namespace Banking_system.Services.AuthService_d
            return refreshToken;
        }
           
-          public async Task<TokenResponseDto> RefreshTokenAsync(string refreshToken, int userId)
+          public async Task<TokenResponseDto> RefreshTokenAsync(string refreshToken)
           {
 
                var refToken = await
-                   unitOfWork.RefreshTokensRepo.GetValidRefreshTokenAsync(refreshToken, userId);
+                   unitOfWork.RefreshTokensRepo.GetValidRefreshTokenAsync(refreshToken);
                
                if (refToken == null)
                    return new TokenResponseDto

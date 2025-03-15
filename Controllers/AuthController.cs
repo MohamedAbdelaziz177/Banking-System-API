@@ -76,7 +76,7 @@ namespace Banking_system.Controllers
 
 
         [HttpGet("RefreshToken")]
-        [Authorize]
+        //[Authorize]
         public async Task<IActionResult> RefreshToken()
         {
             var refToken = Request.Cookies["refreshToken"];
@@ -85,13 +85,7 @@ namespace Banking_system.Controllers
 
             if (refToken == null || refToken == string.Empty) return BadRequest("No Refresh Token");
 
-
-            var userId = int.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier));
-
-
-            TokenResponseDto tokens = await authService.RefreshTokenAsync(refToken, userId);
-
-
+            TokenResponseDto tokens = await authService.RefreshTokenAsync(refToken);
 
             if (!tokens.Successed) return BadRequest("Refresh Token Failed");
 
