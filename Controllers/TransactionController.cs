@@ -1,8 +1,8 @@
 ﻿using AutoMapper;
+using Banking_system.DAL.Model;
+using Banking_system.DAL.UnitOfWorkk;
 using Banking_system.DTO_s.TransactionDto_s;
-using Banking_system.Model;
 using Banking_system.Services.AuthService_d;
-using Banking_system.UnitOfWork;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;

@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
+using Banking_system.DAL.Model;
 using Banking_system.DTO_s.RoleDto_s;
-using Banking_system.Model;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;

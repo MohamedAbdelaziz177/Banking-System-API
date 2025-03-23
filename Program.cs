@@ -1,9 +1,9 @@
 
 using Banking_system.AutoMapperProfiles;
-using Banking_system.Data;
-using Banking_system.Model;
+using Banking_system.DAL.Data;
+using Banking_system.DAL.Model;
+using Banking_system.DAL.UnitOfWorkk;
 using Banking_system.Services.AuthService_d;
-using Banking_system.UnitOfWork;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Routing.Constraints;
