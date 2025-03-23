@@ -1,5 +1,4 @@
-﻿using Banking_system.Enums.Card;
-
+﻿
 namespace Banking_system.DTO_s.CardDto_s
 {
     public class CardReadDto

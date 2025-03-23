@@ -1,5 +1,4 @@
 ﻿using Banking_system.DAL.Repositories.IRepositories;
-using Banking_system.Model;
 using Microsoft.EntityFrameworkCore.Storage;
 
 namespace Banking_system.DAL.UnitOfWorkk

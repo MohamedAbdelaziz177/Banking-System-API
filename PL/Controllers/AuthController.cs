@@ -1,7 +1,6 @@
 ﻿using AutoMapper;
 using Banking_system.DTO_s;
 using Banking_system.DTO_s.AuthDto;
-using Banking_system.Model;
 using Banking_system.Services.AuthService_d;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;

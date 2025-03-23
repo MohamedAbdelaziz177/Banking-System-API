@@ -1,5 +1,4 @@
-﻿using Banking_system.Enums.Loan;
-
+﻿
 namespace Banking_system.DTO_s.LoanDto_s
 {
     public class LoanReadDto

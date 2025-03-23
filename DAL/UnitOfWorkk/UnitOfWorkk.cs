@@ -1,7 +1,6 @@
 ﻿using Banking_system.DAL.Data;
 using Banking_system.DAL.Repositories.IRepositories;
-using Banking_system.Model;
-using Banking_system.Repositories.MRepositories;
+using Banking_system.DAL.Repositories.MRepositories;
 using Microsoft.EntityFrameworkCore.Storage;
 
 namespace Banking_system.DAL.UnitOfWorkk

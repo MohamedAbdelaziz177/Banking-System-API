@@ -1,10 +1,7 @@
 ﻿using Banking_system.DAL.Model;
 using Banking_system.DAL.UnitOfWorkk;
-using Banking_system.Data;
 using Banking_system.DTO_s.AuthDto;
-using Banking_system.Repositories.IRepositories;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;

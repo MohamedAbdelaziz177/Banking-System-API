@@ -1,6 +1,5 @@
 ﻿
 using Banking_system.DAL.Enums.Account;
-using Banking_system.Enums.Card;
 using System.ComponentModel.DataAnnotations;
 
 namespace Banking_system.DTO_s.AccountDto_s

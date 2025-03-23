@@ -1,5 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using Banking_system.Model;
+using Banking_system.DAL.Model;
 using Banking_system.DAL.Data;
 using Banking_system.DAL.Repositories.IRepositories;
 

@@ -1,6 +1,6 @@
 [
   {
-    "ContainingType": "Banking_system.Controllers.AccountController",
+    "ContainingType": "Banking_system.PL.Controllers.AccountController",
     "Method": "ChangeAccountStatus",
     "RelativePath": "api/Account/ChangeStatus/{id}",
     "HttpMethod": "PUT",
@@ -21,7 +21,7 @@
     "ReturnTypes": []
   },
   {
-    "ContainingType": "Banking_system.Controllers.AccountController",
+    "ContainingType": "Banking_system.PL.Controllers.AccountController",
     "Method": "ChangeAccountType",
     "RelativePath": "api/Account/ChangeType/{id}",
     "HttpMethod": "PUT",
@@ -42,7 +42,7 @@
     "ReturnTypes": []
   },
   {
-    "ContainingType": "Banking_system.Controllers.AccountController",
+    "ContainingType": "Banking_system.PL.Controllers.AccountController",
     "Method": "CreateAccount",
     "RelativePath": "api/Account/Create",
     "HttpMethod": "POST",
@@ -58,7 +58,7 @@
     "ReturnTypes": []
   },
   {
-    "ContainingType": "Banking_system.Controllers.AccountController",
+    "ContainingType": "Banking_system.PL.Controllers.AccountController",
     "Method": "DeleteAccount",
     "RelativePath": "api/Account/Delete/{id}",
     "HttpMethod": "DELETE",
@@ -74,7 +74,7 @@
     "ReturnTypes": []
   },
   {
-    "ContainingType": "Banking_system.Controllers.AccountController",
+    "ContainingType": "Banking_system.PL.Controllers.AccountController",
     "Method": "GetAllAccounts",
     "RelativePath": "api/Account/GetAll",
     "HttpMethod": "GET",
@@ -84,7 +84,7 @@
     "ReturnTypes": []
   },
   {
-    "ContainingType": "Banking_system.Controllers.AccountController",
+    "ContainingType": "Banking_system.PL.Controllers.AccountController",
     "Method": "GetAccountsByCustomerId",
     "RelativePath": "api/Account/GetByCustomerId",
     "HttpMethod": "GET",
@@ -100,7 +100,7 @@
     "ReturnTypes": []
   },
   {
-    "ContainingType": "Banking_system.Controllers.AccountController",
+    "ContainingType": "Banking_system.PL.Controllers.AccountController",
     "Method": "GetAccountById",
     "RelativePath": "api/Account/GetById/{id}",
     "HttpMethod": "GET",
@@ -116,7 +116,7 @@
     "ReturnTypes": []
   },
   {
-    "ContainingType": "Banking_system.Controllers.AccountController",
+    "ContainingType": "Banking_system.PL.Controllers.AccountController",
     "Method": "UpdateAccount",
     "RelativePath": "api/Account/Update/{id}",
     "HttpMethod": "PUT",
@@ -137,7 +137,7 @@
     "ReturnTypes": []
   },
   {
-    "ContainingType": "Banking_system.Controllers.AuthController",
+    "ContainingType": "Banking_system.PL.Controllers.AuthController",
     "Method": "ConfirmEmail",
     "RelativePath": "api/Auth/ConfirmEmail",
     "HttpMethod": "POST",
@@ -153,7 +153,7 @@
     "ReturnTypes": []
   },
   {
-    "ContainingType": "Banking_system.Controllers.AuthController",
+    "ContainingType": "Banking_system.PL.Controllers.AuthController",
     "Method": "ForgetPassword",
     "RelativePath": "api/Auth/ForgetPassword",
     "HttpMethod": "GET",
@@ -169,7 +169,7 @@
     "ReturnTypes": []
   },
   {
-    "ContainingType": "Banking_system.Controllers.AuthController",
+    "ContainingType": "Banking_system.PL.Controllers.AuthController",
     "Method": "Login",
     "RelativePath": "api/Auth/Login",
     "HttpMethod": "POST",
@@ -185,7 +185,7 @@
     "ReturnTypes": []
   },
   {
-    "ContainingType": "Banking_system.Controllers.AuthController",
+    "ContainingType": "Banking_system.PL.Controllers.AuthController",
     "Method": "RefreshToken",
     "RelativePath": "api/Auth/RefreshToken",
     "HttpMethod": "GET",
@@ -195,7 +195,7 @@
     "ReturnTypes": []
   },
   {
-    "ContainingType": "Banking_system.Controllers.AuthController",
+    "ContainingType": "Banking_system.PL.Controllers.AuthController",
     "Method": "Register",
     "RelativePath": "api/Auth/Register",
     "HttpMethod": "POST",
@@ -211,7 +211,7 @@
     "ReturnTypes": []
   },
   {
-    "ContainingType": "Banking_system.Controllers.AuthController",
+    "ContainingType": "Banking_system.PL.Controllers.AuthController",
     "Method": "RequestEmailConfirmation",
     "RelativePath": "api/Auth/RequestConfirmation",
     "HttpMethod": "GET",
@@ -221,7 +221,7 @@
     "ReturnTypes": []
   },
   {
-    "ContainingType": "Banking_system.Controllers.AuthController",
+    "ContainingType": "Banking_system.PL.Controllers.AuthController",
     "Method": "ResetPassword",
     "RelativePath": "api/Auth/ResetPassword",
     "HttpMethod": "POST",
@@ -237,7 +237,7 @@
     "ReturnTypes": []
   },
   {
-    "ContainingType": "Banking_system.Controllers.CardController",
+    "ContainingType": "Banking_system.PL.Controllers.CardController",
     "Method": "ChangeCardStatus",
     "RelativePath": "api/Card/ChangeStatus/{id}",
     "HttpMethod": "PUT",
@@ -258,7 +258,7 @@
     "ReturnTypes": []
   },
   {
-    "ContainingType": "Banking_system.Controllers.CardController",
+    "ContainingType": "Banking_system.PL.Controllers.CardController",
     "Method": "CreateCard",
     "RelativePath": "api/Card/Create",
     "HttpMethod": "POST",
@@ -274,7 +274,7 @@
     "ReturnTypes": []
   },
   {
-    "ContainingType": "Banking_system.Controllers.CardController",
+    "ContainingType": "Banking_system.PL.Controllers.CardController",
     "Method": "DeleteCard",
     "RelativePath": "api/Card/Delete/{id}",
     "HttpMethod": "DELETE",
@@ -290,7 +290,7 @@
     "ReturnTypes": []
   },
   {
-    "ContainingType": "Banking_system.Controllers.CardController",
+    "ContainingType": "Banking_system.PL.Controllers.CardController",
     "Method": "Deposit",
     "RelativePath": "api/Card/Deposit/{id}",
     "HttpMethod": "PUT",
@@ -311,7 +311,7 @@
     "ReturnTypes": []
   },
   {
-    "ContainingType": "Banking_system.Controllers.CardController",
+    "ContainingType": "Banking_system.PL.Controllers.CardController",
     "Method": "ExpireCards",
     "RelativePath": "api/Card/Expire/{id}",
     "HttpMethod": "PUT",
@@ -327,7 +327,7 @@
     "ReturnTypes": []
   },
   {
-    "ContainingType": "Banking_system.Controllers.CardController",
+    "ContainingType": "Banking_system.PL.Controllers.CardController",
     "Method": "GetAllCards",
     "RelativePath": "api/Card/GetAll",
     "HttpMethod": "GET",
@@ -337,7 +337,7 @@
     "ReturnTypes": []
   },
   {
-    "ContainingType": "Banking_system.Controllers.CardController",
+    "ContainingType": "Banking_system.PL.Controllers.CardController",
     "Method": "GetCardById",
     "RelativePath": "api/Card/GetById/{id}",
     "HttpMethod": "GET",
@@ -353,7 +353,7 @@
     "ReturnTypes": []
   },
   {
-    "ContainingType": "Banking_system.Controllers.CardController",
+    "ContainingType": "Banking_system.PL.Controllers.CardController",
     "Method": "SetExpiryDate",
     "RelativePath": "api/Card/SetExpiryDate/{id}",
     "HttpMethod": "PUT",
@@ -369,7 +369,7 @@
     "ReturnTypes": []
   },
   {
-    "ContainingType": "Banking_system.Controllers.CardController",
+    "ContainingType": "Banking_system.PL.Controllers.CardController",
     "Method": "UpdateCard",
     "RelativePath": "api/Card/Update/{id}",
     "HttpMethod": "PUT",
@@ -390,7 +390,7 @@
     "ReturnTypes": []
   },
   {
-    "ContainingType": "Banking_system.Controllers.CardController",
+    "ContainingType": "Banking_system.PL.Controllers.CardController",
     "Method": "Withdraw",
     "RelativePath": "api/Card/Withdraw/{id}",
     "HttpMethod": "PUT",
@@ -411,7 +411,7 @@
     "ReturnTypes": []
   },
   {
-    "ContainingType": "Banking_system.Controllers.CustomerController",
+    "ContainingType": "Banking_system.PL.Controllers.CustomerController",
     "Method": "AddNewCustomer",
     "RelativePath": "api/Customer/Add",
     "HttpMethod": "POST",
@@ -427,7 +427,7 @@
     "ReturnTypes": []
   },
   {
-    "ContainingType": "Banking_system.Controllers.CustomerController",
+    "ContainingType": "Banking_system.PL.Controllers.CustomerController",
     "Method": "DeleteCustomer",
     "RelativePath": "api/Customer/Delete/{id}",
     "HttpMethod": "DELETE",
@@ -443,7 +443,7 @@
     "ReturnTypes": []
   },
   {
-    "ContainingType": "Banking_system.Controllers.CustomerController",
+    "ContainingType": "Banking_system.PL.Controllers.CustomerController",
     "Method": "GetAllCustomers",
     "RelativePath": "api/Customer/GetAll",
     "HttpMethod": "GET",
@@ -453,7 +453,7 @@
     "ReturnTypes": []
   },
   {
-    "ContainingType": "Banking_system.Controllers.CustomerController",
+    "ContainingType": "Banking_system.PL.Controllers.CustomerController",
     "Method": "GetCustomerById",
     "RelativePath": "api/Customer/GetById/{id}",
     "HttpMethod": "GET",
@@ -469,7 +469,7 @@
     "ReturnTypes": []
   },
   {
-    "ContainingType": "Banking_system.Controllers.CustomerController",
+    "ContainingType": "Banking_system.PL.Controllers.CustomerController",
     "Method": "UpdateCustomer",
     "RelativePath": "api/Customer/Update/{id}",
     "HttpMethod": "PUT",
@@ -490,7 +490,7 @@
     "ReturnTypes": []
   },
   {
-    "ContainingType": "Banking_system.Controllers.LoanController",
+    "ContainingType": "Banking_system.PL.Controllers.LoanController",
     "Method": "CreateLoan",
     "RelativePath": "api/Loan/Create",
     "HttpMethod": "POST",
@@ -506,7 +506,7 @@
     "ReturnTypes": []
   },
   {
-    "ContainingType": "Banking_system.Controllers.LoanController",
+    "ContainingType": "Banking_system.PL.Controllers.LoanController",
     "Method": "DeleteLoan",
     "RelativePath": "api/Loan/Delete/{id}",
     "HttpMethod": "DELETE",
@@ -522,7 +522,7 @@
     "ReturnTypes": []
   },
   {
-    "ContainingType": "Banking_system.Controllers.LoanController",
+    "ContainingType": "Banking_system.PL.Controllers.LoanController",
     "Method": "GetAllLoans",
     "RelativePath": "api/Loan/GetAll",
     "HttpMethod": "GET",
@@ -532,7 +532,7 @@
     "ReturnTypes": []
   },
   {
-    "ContainingType": "Banking_system.Controllers.LoanController",
+    "ContainingType": "Banking_system.PL.Controllers.LoanController",
     "Method": "GetLoanByCustomerId",
     "RelativePath": "api/Loan/GetByCustomerId/{id}",
     "HttpMethod": "GET",
@@ -548,7 +548,7 @@
     "ReturnTypes": []
   },
   {
-    "ContainingType": "Banking_system.Controllers.LoanController",
+    "ContainingType": "Banking_system.PL.Controllers.LoanController",
     "Method": "GetLoanById",
     "RelativePath": "api/Loan/GetById/{id}",
     "HttpMethod": "GET",
@@ -564,7 +564,7 @@
     "ReturnTypes": []
   },
   {
-    "ContainingType": "Banking_system.Controllers.LoanController",
+    "ContainingType": "Banking_system.PL.Controllers.LoanController",
     "Method": "GetPaidLoans",
     "RelativePath": "api/Loan/GetPaidLoans",
     "HttpMethod": "GET",
@@ -574,7 +574,7 @@
     "ReturnTypes": []
   },
   {
-    "ContainingType": "Banking_system.Controllers.LoanController",
+    "ContainingType": "Banking_system.PL.Controllers.LoanController",
     "Method": "GetUnpaidLoans",
     "RelativePath": "api/Loan/GetUnpaidLoans",
     "HttpMethod": "GET",
@@ -584,7 +584,7 @@
     "ReturnTypes": []
   },
   {
-    "ContainingType": "Banking_system.Controllers.LoanController",
+    "ContainingType": "Banking_system.PL.Controllers.LoanController",
     "Method": "UpdateLoan",
     "RelativePath": "api/Loan/Update/{id}",
     "HttpMethod": "PUT",
@@ -605,7 +605,7 @@
     "ReturnTypes": []
   },
   {
-    "ContainingType": "Banking_system.Controllers.RoleController",
+    "ContainingType": "Banking_system.PL.Controllers.RoleController",
     "Method": "AddRole",
     "RelativePath": "api/Role/AddRole",
     "HttpMethod": "POST",
@@ -621,7 +621,7 @@
     "ReturnTypes": []
   },
   {
-    "ContainingType": "Banking_system.Controllers.RoleController",
+    "ContainingType": "Banking_system.PL.Controllers.RoleController",
     "Method": "AssignRoleToUser",
     "RelativePath": "api/Role/AssignToUser",
     "HttpMethod": "POST",
@@ -637,7 +637,7 @@
     "ReturnTypes": []
   },
   {
-    "ContainingType": "Banking_system.Controllers.RoleController",
+    "ContainingType": "Banking_system.PL.Controllers.RoleController",
     "Method": "GetRoleById",
     "RelativePath": "api/Role/GetRole/{id}",
     "HttpMethod": "GET",
@@ -653,7 +653,7 @@
     "ReturnTypes": []
   },
   {
-    "ContainingType": "Banking_system.Controllers.RoleController",
+    "ContainingType": "Banking_system.PL.Controllers.RoleController",
     "Method": "UpdateRole",
     "RelativePath": "api/Role/UpdateRole/{id}",
     "HttpMethod": "POST",
@@ -674,7 +674,7 @@
     "ReturnTypes": []
   },
   {
-    "ContainingType": "Banking_system.Controllers.TransactionController",
+    "ContainingType": "Banking_system.PL.Controllers.TransactionController",
     "Method": "DeleteTransaction",
     "RelativePath": "api/Transaction/DeleteTransaction",
     "HttpMethod": "DELETE",
@@ -690,7 +690,7 @@
     "ReturnTypes": []
   },
   {
-    "ContainingType": "Banking_system.Controllers.TransactionController",
+    "ContainingType": "Banking_system.PL.Controllers.TransactionController",
     "Method": "Deposit",
     "RelativePath": "api/Transaction/Deposit",
     "HttpMethod": "POST",
@@ -706,7 +706,7 @@
     "ReturnTypes": []
   },
   {
-    "ContainingType": "Banking_system.Controllers.TransactionController",
+    "ContainingType": "Banking_system.PL.Controllers.TransactionController",
     "Method": "GetAllTransactions",
     "RelativePath": "api/Transaction/GetAllTransactions",
     "HttpMethod": "GET",
@@ -716,7 +716,7 @@
     "ReturnTypes": []
   },
   {
-    "ContainingType": "Banking_system.Controllers.TransactionController",
+    "ContainingType": "Banking_system.PL.Controllers.TransactionController",
     "Method": "GetTransactionById",
     "RelativePath": "api/Transaction/GetTransactionById/{id}",
     "HttpMethod": "GET",
@@ -732,7 +732,7 @@
     "ReturnTypes": []
   },
   {
-    "ContainingType": "Banking_system.Controllers.TransactionController",
+    "ContainingType": "Banking_system.PL.Controllers.TransactionController",
     "Method": "GetTransactionsByAccId",
     "RelativePath": "api/Transaction/GetTransactionsByAccId/{id}",
     "HttpMethod": "GET",
@@ -748,7 +748,7 @@
     "ReturnTypes": []
   },
   {
-    "ContainingType": "Banking_system.Controllers.TransactionController",
+    "ContainingType": "Banking_system.PL.Controllers.TransactionController",
     "Method": "GetTransactionsFromAccByAccId",
     "RelativePath": "api/Transaction/GetTransactionsFromAccByAccId/{id}",
     "HttpMethod": "GET",
@@ -764,7 +764,7 @@
     "ReturnTypes": []
   },
   {
-    "ContainingType": "Banking_system.Controllers.TransactionController",
+    "ContainingType": "Banking_system.PL.Controllers.TransactionController",
     "Method": "GetTransactionsToAccByAccId",
     "RelativePath": "api/Transaction/GetTransactionsToAccByAccId/{id}",
     "HttpMethod": "GET",
@@ -780,7 +780,7 @@
     "ReturnTypes": []
   },
   {
-    "ContainingType": "Banking_system.Controllers.TransactionController",
+    "ContainingType": "Banking_system.PL.Controllers.TransactionController",
     "Method": "Transfer",
     "RelativePath": "api/Transaction/Transfer",
     "HttpMethod": "POST",
@@ -796,7 +796,7 @@
     "ReturnTypes": []
   },
   {
-    "ContainingType": "Banking_system.Controllers.TransactionController",
+    "ContainingType": "Banking_system.PL.Controllers.TransactionController",
     "Method": "Withdraw",
     "RelativePath": "api/Transaction/Withdraw",
     "HttpMethod": "POST",
