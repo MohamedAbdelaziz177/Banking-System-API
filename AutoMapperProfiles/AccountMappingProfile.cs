@@ -1,7 +1,7 @@
 ﻿using AutoMapper;
+using Banking_system.DAL.Enums.Account;
 using Banking_system.DAL.Model;
 using Banking_system.DTO_s.AccountDto_s;
-using Banking_system.Enums.Account;
 
 namespace Banking_system.AutoMapperProfiles
 {

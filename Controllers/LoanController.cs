@@ -1,9 +1,9 @@
 ﻿using AutoMapper;
+using Banking_system.DAL.Enums.Loan;
 using Banking_system.DAL.Model;
 using Banking_system.DAL.UnitOfWorkk;
 using Banking_system.DTO_s;
 using Banking_system.DTO_s.LoanDto_s;
-using Banking_system.Enums.Loan;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;

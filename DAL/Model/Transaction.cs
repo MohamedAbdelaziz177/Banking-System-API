@@ -1,4 +1,4 @@
-﻿using Banking_system.Enums.Transactions;
+﻿using Banking_system.DAL.Enums.Transactions;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Banking_system.DAL.Model

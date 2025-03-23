@@ -1,4 +1,4 @@
-﻿using Banking_system.Enums.Card;
+﻿using Banking_system.DAL.Enums.Card;
 
 namespace Banking_system.DAL.Model
 {

@@ -1,6 +1,6 @@
-﻿using Banking_system.DTO_s.CustomValidations;
+﻿using Banking_system.DAL.Enums.Transactions;
+using Banking_system.DTO_s.CustomValidations;
 using Banking_system.Enums.Loan;
-using Banking_system.Enums.Transactions;
 using System.ComponentModel.DataAnnotations;
 
 namespace Banking_system.DTO_s.TransactionDto_s

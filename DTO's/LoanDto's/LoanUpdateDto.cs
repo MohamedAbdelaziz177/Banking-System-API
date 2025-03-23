@@ -1,4 +1,4 @@
-﻿using Banking_system.Enums.Loan;
+﻿using Banking_system.DAL.Enums.Loan;
 using System.ComponentModel.DataAnnotations;
 
 namespace Banking_system.DTO_s.LoanDto_s

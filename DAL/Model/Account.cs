@@ -1,4 +1,4 @@
-﻿using Banking_system.Enums.Account;
+﻿using Banking_system.DAL.Enums.Account;
 
 namespace Banking_system.DAL.Model
 {
