@@ -1,8 +1,8 @@
 ﻿using AutoMapper;
+using Banking_system.DAL.Model;
 using Banking_system.DTO_s;
 using Banking_system.DTO_s.AuthDto;
 using Banking_system.DTO_s.RoleDto_s;
-using Banking_system.Model;
 
 namespace Banking_system.AutoMapperProfiles
 {

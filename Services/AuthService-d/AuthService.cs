@@ -1,8 +1,8 @@
-﻿using Banking_system.Data;
+﻿using Banking_system.DAL.Model;
+using Banking_system.DAL.UnitOfWorkk;
+using Banking_system.Data;
 using Banking_system.DTO_s.AuthDto;
-using Banking_system.Model;
 using Banking_system.Repositories.IRepositories;
-using Banking_system.UnitOfWork;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;

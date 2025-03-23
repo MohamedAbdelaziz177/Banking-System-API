@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
+using Banking_system.DAL.Model;
 using Banking_system.DTO_s.CustomerDto_s;
-using Banking_system.Model;
 
 namespace Banking_system.AutoMapperProfiles
 {
